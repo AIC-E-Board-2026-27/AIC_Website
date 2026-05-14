@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AIC — Artificial Intelligence Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  /* AIC brand tokens */
+  :root{
+    --aic-teal:   #20B2AA;
+    --aic-purple: #6B4FBB;
+    --aic-off:    #EDEDE9;
+    --aic-obsidian:#0C0C0B;
+    --aic-chalk:  #F2F2F0;
+    --aic-ash:    #3A3A38;
+
+    --ink:        var(--aic-off);
+    --ink-dim:    #b6b4ad;
+    --ink-faint:  #76746e;
+    --line:       rgba(237,237,233,.10);
+    --line-strong:rgba(237,237,233,.22);
+
+    --serif:"Newsreader", "Iowan Old Style", Georgia, serif;
+    --sans:"Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --mono:"Geist Mono", ui-monospace, "JetBrains Mono", Menlo, monospace;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{
+    background:transparent;
+    color:var(--ink);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+  }
+  html{ background:var(--aic-obsidian); }
+  body{
+    min-height:100vh;
+    overflow-x:hidden;
+    font-size:15px;
+    line-height:1.55;
+    letter-spacing:-0.005em;
+  }
+  a{ color:inherit; text-decoration:none; }
+
+  /* ---------- background slideshow (full page, fixed) ---------- */
+  .bg{
+    position:fixed; inset:0;
+    z-index:-2;
+    background:var(--aic-obsidian);
+    overflow:hidden;
+  }
+  .bg .slide{
+    position:absolute; inset:0;
+    background-size:cover;
+    background-position:center;
+    opacity:0;
+    transition: opacity 2.4s ease-in-out, transform 12s ease-out;
+    transform:scale(1.04);
+    filter: saturate(.7) contrast(.95) brightness(.55);
+    will-change: opacity, transform;
+  }
+  .bg .slide.on{
+    opacity:1;
+    transform:scale(1.0);
+  }
+  /* dimming scrim over slideshow for readability */
+  .bg::after{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      linear-gradient(180deg, rgba(12,12,11,.35) 0%, rgba(12,12,11,.25) 45%, rgba(12,12,11,.55) 100%),
+      radial-gradient(120% 80% at 50% 50%, rgba(12,12,11,0) 0%, rgba(12,12,11,.25) 70%, rgba(12,12,11,.55) 100%);
+    pointer-events:none;
+    z-index:2;
+  }
+  /* Scrims removed — photos display directly */
+  .grain{
+    position:fixed; inset:-50%; z-index:-1;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95  0 0 0 0 0.95  0 0 0 0 0.92  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/></svg>");
+    opacity:.07;
+    mix-blend-mode:overlay;
+    pointer-events:none;
+    animation: drift 9s steps(6) infinite;
+  }
+  @keyframes drift{
+    0%  { transform:translate(0,0) }
+    20% { transform:translate(-2%, 1%) }
+    40% { transform:translate(1%, -1%) }
+    60% { transform:translate(-1%, 2%) }
+    80% { transform:translate(2%, -2%) }
+    100%{ transform:translate(0,0) }
+  }
+
+  .wrap{ max-width:1240px; margin:0 auto; padding:0 32px; position:relative; width:100%; }
+  @media (max-width:640px){ .wrap{ padding:0 22px; } }
+
+  /* ---------- nav ---------- */
+  nav.top{
+    padding-top:28px;
+    position:relative; z-index:5;
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .nav-links{ display:flex; gap:32px; align-items:center; }
+  .brand-name{
+    font-size:14px; font-weight:500; letter-spacing:-0.005em;
+    color:var(--ink);
+  }
+  .nav-links a{
+    font-size:13px; color:var(--ink-dim);
+    transition:color .2s ease;
+    position:relative;
+  }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; right:0; bottom:-4px;
+    height:1px;
+    background:linear-gradient(90deg, var(--aic-teal), var(--aic-purple));
+    transform:scaleX(0); transform-origin:left;
+    transition: transform .25s ease;
+    opacity:.7;
+  }
+  .nav-links a:hover{ color:var(--ink); }
+  .nav-links a:hover::after{ transform:scaleX(1); }
+
+  /* ---------- hero ---------- */
+  .hero-section{
+    min-height: calc(100vh - 92px);
+    display:flex; align-items:center; justify-content:center;
+    padding: 80px 0 96px;
+    position:relative;
+  }
+  .hero{
+    text-align:center;
+    max-width:720px;
+    margin: 0 auto;
+  }
+  h1.display{
+    font-family:var(--serif);
+    font-weight:300;
+    font-size: clamp(56px, 9vw, 116px);
+    line-height: .98;
+    letter-spacing:-0.035em;
+    color:var(--ink);
+    text-wrap:balance;
+    text-shadow: 0 2px 32px rgba(0,0,0,.65), 0 1px 4px rgba(0,0,0,.5);
+  }
+  h1.display .italic{
+    font-style:normal;
+    color:var(--ink);
+  }
+
+  .lede{
+    margin: 32px auto 0;
+    max-width:560px;
+    font-size:17px; line-height:1.6;
+    color:#d8d8d3;
+    text-wrap:pretty;
+    text-shadow: 0 1px 16px rgba(0,0,0,.7), 0 1px 3px rgba(0,0,0,.6);
+  }
+
+  /* newsletter form */
+  form.subscribe{
+    margin: 44px auto 0;
+    max-width:480px;
+    display:flex; align-items:center; gap:8px;
+    padding:6px;
+    border:1px solid var(--line-strong);
+    border-radius:999px;
+    background:rgba(12,12,11,.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: border-color .2s ease, background .2s ease;
+  }
+  form.subscribe:focus-within{
+    border-color: rgba(32,178,170,.55);
+    background:rgba(12,12,11,.7);
+    box-shadow: 0 0 0 4px rgba(32,178,170,.08);
+  }
+  form.subscribe input{
+    flex:1;
+    background:transparent;
+    border:0; outline:0;
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:14.5px;
+    padding: 10px 14px;
+  }
+  form.subscribe input::placeholder{ color:#8a8a85; }
+  form.subscribe button{
+    height:42px; padding:0 22px;
+    border:0; border-radius:999px;
+    background:var(--aic-off); color:var(--aic-obsidian);
+    font-family:var(--sans);
+    font-size:13.5px; font-weight:500;
+    cursor:pointer;
+    transition: background .2s ease, transform .15s ease, color .2s ease;
+    white-space:nowrap;
+  }
+  form.subscribe button:hover{ background:#fff; }
+  form.subscribe button:active{ transform:scale(.98); }
+
+  .hint{
+    margin-top: 16px;
+    font-family:var(--mono);
+    font-size: 11px;
+    letter-spacing:.08em;
+    color: var(--ink-faint);
+    text-transform:uppercase;
+  }
+  .hint .ok{ color: var(--aic-teal); }
+
+  /* scroll cue */
+  .scroll-cue{
+    position:absolute; left:50%; bottom:36px;
+    transform:translateX(-50%);
+    font-family:var(--mono); font-size:10.5px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--ink-faint);
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    opacity:.75;
+  }
+  .scroll-cue .line{
+    width:1px; height:34px;
+    background:linear-gradient(180deg, rgba(237,237,233,0), rgba(237,237,233,.6));
+    animation: bob 2.6s ease-in-out infinite;
+  }
+  @keyframes bob{
+    0%,100%{ transform:scaleY(.6); opacity:.4 }
+    50%{ transform:scaleY(1); opacity:1 }
+  }
+
+  /* ---------- upcoming events ---------- */
+  section.events{
+    padding: 120px 0 140px;
+    position:relative;
+    background:#14151a;
+  }
+  /* smooth fade from translucent (slideshow visible) into solid grey */
+  section.events::before{
+    content:"";
+    position:absolute;
+    left:0; right:0;
+    top:-140px; height:140px;
+    background:linear-gradient(180deg, rgba(20,21,26,0) 0%, rgba(20,21,26,.85) 70%, #14151a 100%);
+    pointer-events:none;
+  }
+  /* footer also covers slideshow */
+  footer{ background:#101115 !important; }
+  .events-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    gap:24px; margin-bottom:42px;
+    padding-bottom:18px;
+    border-bottom:1px solid var(--line);
+  }
+  .events-head h2{
+    font-family:var(--serif); font-weight:400;
+    font-size:clamp(34px, 4.4vw, 54px);
+    letter-spacing:-0.025em;
+  }
+  .events-head h2 .italic{
+    font-style:normal;
+    color:var(--ink);
+  }
+  .events-head .label{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(20px, 2.2vw, 28px);
+    letter-spacing:-0.02em;
+    color:var(--ink);
+    text-shadow:
+      0 0 18px rgba(32,178,170,.55),
+      0 0 38px rgba(32,178,170,.25);
+  }
+  .events-head .label em{
+    font-style:normal;
+    color:#cfe9e6;
+    font-weight:300;
+  }
+
+  .event-list{ display:flex; flex-direction:column; }
+  .event{
+    display:grid;
+    grid-template-columns: 80px 1fr 200px 160px 44px;
+    align-items:center;
+    gap:24px;
+    padding:26px 22px;
+    border-top:1px solid var(--line);
+    transition: background .25s ease, transform .25s ease;
+    cursor:pointer;
+    background:rgba(20,21,26,.35);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    position:relative;
+    border-radius:14px;
+    margin: 0 -22px;
+    border-top-color:var(--line);
+  }
+  .event::before{
+    content:"";
+    position:absolute; inset:0;
+    border-radius:14px;
+    padding:1px;
+    background: conic-gradient(
+      from var(--shine-angle, 0deg),
+      transparent 0deg,
+      transparent 60deg,
+      rgba(107,79,187,.85) 120deg,
+      rgba(107,79,187,.35) 160deg,
+      transparent 200deg,
+      transparent 360deg
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity:0;
+    transition: opacity .35s ease;
+    pointer-events:none;
+  }
+  .event:last-child{ border-bottom:1px solid var(--line); }
+  .event:hover{
+    background:rgba(20,21,26,.7);
+    box-shadow:
+      0 0 0 1px rgba(107,79,187,.18),
+      0 12px 40px -12px rgba(107,79,187,.35),
+      inset 0 0 60px rgba(107,79,187,.06);
+  }
+  .event:hover::before{
+    opacity:1;
+    animation: shine-rotate 4s linear infinite;
+  }
+  @keyframes shine-rotate{
+    to { --shine-angle: 360deg; }
+  }
+  @property --shine-angle{
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+  }
+  .event .idx{
+    font-family:var(--mono); font-size:11px; color:var(--ink-faint); letter-spacing:.05em;
+  }
+  .event .title{
+    font-family:var(--serif); font-size:24px; letter-spacing:-0.02em;
+    color:var(--ink); line-height:1.15;
+  }
+  .event .title .tag{
+    display:inline-block; margin-left:12px; vertical-align:middle;
+    font-family:var(--mono); font-size:10px; letter-spacing:.12em;
+    text-transform:uppercase;
+    color:#b8a8e0;
+    padding:3px 8px; border-radius:4px;
+    border:1px solid rgba(107,79,187,.32);
+    background:rgba(107,79,187,.08);
+  }
+  .event .when{
+    font-family:var(--mono); font-size:12.5px; color:var(--ink-dim);
+  }
+  .event .when .dow{ color:var(--ink-faint); }
+  .event .when .time{ color:var(--ink); }
+  .event .where{
+    font-family:var(--sans); font-size:13.5px; color:var(--ink-dim);
+  }
+  .event .where::before{
+    content:""; display:inline-block; width:5px; height:5px; border-radius:50%;
+    background:var(--ink-faint); margin-right:9px; vertical-align:middle;
+  }
+  .event .go{
+    width:34px; height:34px; border-radius:50%;
+    border:1px solid var(--line-strong);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--ink-dim);
+    transition: all .2s ease;
+  }
+  .event:hover .go{
+    border-color:rgba(107,79,187,.55);
+    color:#b8a8e0;
+    transform:rotate(-45deg);
+    box-shadow:0 0 16px rgba(107,79,187,.30);
+  }
+  .event .go svg{ width:14px; height:14px; }
+
+  @media (max-width:920px){
+    .event{ grid-template-columns: 42px 1fr 32px; grid-template-rows:auto auto auto; gap:6px 16px; padding:22px 6px; }
+    .event .idx{ grid-row:1; }
+    .event .title{ grid-row:1; grid-column:2; font-size:19px; }
+    .event .when{ grid-row:2; grid-column:2; }
+    .event .where{ grid-row:3; grid-column:2; }
+    .event .go{ grid-row:1 / span 3; grid-column:3; align-self:start; }
+  }
+
+  .events-foot{
+    margin-top:34px;
+    display:flex; justify-content:space-between; align-items:center;
+    gap:16px; flex-wrap:wrap;
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.06em;
+    color:var(--ink-faint);
+  }
+  .events-foot a{
+    color:var(--ink);
+    border-bottom:1px solid var(--line-strong);
+    padding-bottom:2px;
+    transition: border-color .2s ease, color .2s ease;
+  }
+  .events-foot a:hover{
+    border-color:var(--aic-purple);
+    color:#a394d6;
+  }
+
+  /* ---------- footer ---------- */
+  footer{
+    padding: 32px 0 36px;
+    border-top:1px solid var(--line);
+    color:var(--ink-faint);
+    font-family:var(--mono); font-size:11px; letter-spacing:.06em;
+    background:rgba(12,12,11,.35);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .foot-inner{ display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .foot-inner a:hover{ color:var(--ink); }
+
+  /* reveal */
+  .reveal{ opacity:0; transform:translateY(10px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in{ opacity:1; transform:none; }
+  .reveal.d1{ transition-delay:.08s; }
+  .reveal.d2{ transition-delay:.16s; }
+  .reveal.d3{ transition-delay:.24s; }
+  .reveal.d4{ transition-delay:.32s; }
+
+  ::selection{ background:var(--aic-teal); color:var(--aic-obsidian); }
+</style>
+</head>
+<body>
+
+<!-- Background slideshow -->
+<div class="bg" id="bg"></div>
+<div class="grain"></div>
+
+<nav class="top">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#"><span class="brand-name">AIC</span></a>
+    <div class="nav-links">
+      <a href="AI4ALL.html" class="current">Home</a>
+      <a href="archive.html">Workshop Archive</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero-section">
+  <div class="wrap">
+    <div class="hero">
+      <h1 class="display reveal">Welcome to <span class="italic">AIC</span></h1>
+      <p class="lede reveal d1">
+        The Artificial Intelligence Club at the University of Michigan-Dearborn — a community
+        for students curious about AI, its applications across every domain, and what it means
+        for the future of work and study.
+      </p>
+      <form class="subscribe reveal d2" id="signup" novalidate>
+        <input type="email" id="email" placeholder="you@umich.edu" autocomplete="email" required />
+        <button type="submit">Subscribe</button>
+      </form>
+      <div class="hint reveal d3" id="hint">Get the newsletter · One email per month · No spam</div>
+    </div>
+  </div>
+
+  <div class="scroll-cue reveal d4"><span>Upcoming</span><span class="line"></span></div>
+</div>
+
+<section class="events">
+  <div class="wrap">
+    <div class="events-head reveal">
+      <h2>Upcoming <span class="italic">events</span></h2>
+      <span class="label">Fall 2026 <em>· Tentative</em></span>
+    </div>
+
+    <div class="event-list reveal d1" id="event-list"></div>
+
+    <div class="events-foot reveal d2">
+      <span>Workshops are free · Open to all majors</span>
+      <a href="archive.html">See the full archive →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-inner">
+    <div>© 2026 · Artificial Intelligence Club · U-M Dearborn</div>
+    <div><a href="/cdn-cgi/l/email-protection#651204020f04060e2510080c060d4b000110">Contact</a></div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  /* ===================================================================
+     SLIDESHOW
+     Cross-fade through workshop photos, 6.5s per slide, 2.4s fade.
+     =================================================================== */
+  (() => {
+    const COUNT = 19;
+    const HOLD_MS = 6500;
+    const bg = document.getElementById('bg');
+
+    // shuffle indices once so each load feels different
+    const order = Array.from({length: COUNT}, (_, i) => i + 1);
+    for(let i = order.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [order[i], order[j]] = [order[j], order[i]];
+    }
+
+    // create slide nodes
+    const nodes = order.map(n => {
+      const d = document.createElement('div');
+      d.className = 'slide';
+      const num = String(n).padStart(2, '0');
+      d.style.backgroundImage = `url("images/w${num}.jpg")`;
+      bg.appendChild(d);
+      return d;
+    });
+
+    let cur = 0;
+    // start with first slide visible
+    nodes[0].classList.add('on');
+
+    // preload next image to make fades smoother
+    function preload(i){
+      const img = new Image();
+      const num = String(order[i]).padStart(2,'0');
+      img.src = `images/w${num}.jpg`;
+    }
+    preload(1 % nodes.length);
+
+    let timer;
+    function tick(){
+      const next = (cur + 1) % nodes.length;
+      nodes[next].classList.add('on');
+      // remove "on" from cur after fade has happened
+      const prev = cur;
+      setTimeout(() => nodes[prev].classList.remove('on'), 2500);
+      cur = next;
+      preload((cur + 1) % nodes.length);
+      timer = setTimeout(tick, HOLD_MS);
+    }
+    timer = setTimeout(tick, HOLD_MS);
+
+    // pause when tab hidden
+    document.addEventListener('visibilitychange', () => {
+      if(document.hidden){ clearTimeout(timer); }
+      else { timer = setTimeout(tick, HOLD_MS); }
+    });
+  })();
+
+  /* ===================================================================
+     UPCOMING EVENTS MOCKUP
+     =================================================================== */
+  const upcoming = [
+    { n: 11, title: "AI for Software Engineers",  tag: "Career",    dow: "TUE", date: "Sep 23, 2026", time: "5:00 – 6:00 PM",  room: "CASL 1014" },
+    { n: 12, title: "AI in Finance & Markets",     tag: "Applied",   dow: "TUE", date: "Oct 7, 2026",  time: "5:00 – 6:00 PM",  room: "ELB 1321" },
+    { n: 13, title: "Building with LLMs — Workshop", tag: "Hands-on", dow: "THU", date: "Oct 22, 2026", time: "4:00 – 5:30 PM", room: "CIS 239" },
+    { n: 14, title: "AI & Privacy",                tag: "Ethics",    dow: "TUE", date: "Nov 5, 2026",  time: "5:00 – 6:00 PM",  room: "ELB 1321" },
+  ];
+
+  const list = document.getElementById('event-list');
+  list.innerHTML = upcoming.map((e, i) => {
+    const num = String(e.n).padStart(2,'0');
+    const isNext = i === 0;
+    return `
+      <div class="event" tabindex="0">
+        <div class="idx">${num}</div>
+        <div class="title">${e.title}${isNext ? '<span class="tag">Up next</span>' : ''}</div>
+        <div class="when"><span class="dow">${e.dow}</span> ${e.date} · <span class="time">${e.time}</span></div>
+        <div class="where">${e.room}</div>
+        <div class="go" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  /* ===================================================================
+     NEWSLETTER (client-side validation only)
+     =================================================================== */
+  const form = document.getElementById('signup');
+  const hint = document.getElementById('hint');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if(!ok){
+      hint.innerHTML = 'Please enter a valid email address.';
+      hint.style.color = '#e8e3d7';
+      return;
+    }
+    hint.innerHTML = '<span class="ok">✓ Subscribed.</span> See you at the next workshop.';
+    form.querySelector('input').value = '';
+    form.querySelector('input').setAttribute('disabled','');
+    form.querySelector('button').setAttribute('disabled','');
+    form.querySelector('button').textContent = 'Subscribed';
+    form.querySelector('button').style.opacity = '.6';
+  });
+
+  /* reveal */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

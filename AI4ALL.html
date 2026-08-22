@@ -264,6 +264,15 @@
   }
 
   .event-list{ display:flex; flex-direction:column; }
+  .events-soon{
+    padding: 72px 0 44px;
+    text-align:center;
+    font-family:var(--serif);
+    font-size:clamp(30px, 4.5vw, 48px);
+    font-weight:400;
+    letter-spacing:-0.02em;
+    color:var(--ink-dim);
+  }
   .event{
     display:grid;
     grid-template-columns: 80px 1fr 200px 160px 44px;
@@ -521,15 +530,9 @@
   <div class="wrap">
     <div class="events-head reveal">
       <h2>Upcoming <span class="italic">events</span></h2>
-      <span class="label">Fall 2026 <em>· Tentative</em></span>
     </div>
 
-    <div class="event-list reveal d1" id="event-list"></div>
-
-    <div class="events-foot reveal d2">
-      <span>Workshops are free · Open to all majors</span>
-      <a href="archive.html">See the full archive →</a>
-    </div>
+    <div class="events-soon reveal d1">Coming soon</div>
   </div>
 </section>
 
@@ -626,33 +629,6 @@
       else { timer = setTimeout(tick, HOLD_MS); }
     });
   })();
-
-  /* ===================================================================
-     UPCOMING EVENTS MOCKUP
-     =================================================================== */
-  const upcoming = [
-    { n: 11, title: "AI for Software Engineers",  tag: "Career",    dow: "TUE", date: "Sep 23, 2026", time: "5:00 – 6:00 PM",  room: "CASL 1014" },
-    { n: 12, title: "AI in Finance & Markets",     tag: "Applied",   dow: "TUE", date: "Oct 7, 2026",  time: "5:00 – 6:00 PM",  room: "ELB 1321" },
-    { n: 13, title: "Building with LLMs — Workshop", tag: "Hands-on", dow: "THU", date: "Oct 22, 2026", time: "4:00 – 5:30 PM", room: "CIS 239" },
-    { n: 14, title: "AI & Privacy",                tag: "Ethics",    dow: "TUE", date: "Nov 5, 2026",  time: "5:00 – 6:00 PM",  room: "ELB 1321" },
-  ];
-
-  const list = document.getElementById('event-list');
-  list.innerHTML = upcoming.map((e, i) => {
-    const num = String(e.n).padStart(2,'0');
-    const isNext = i === 0;
-    return `
-      <div class="event" tabindex="0">
-        <div class="idx">${num}</div>
-        <div class="title">${e.title}${isNext ? '<span class="tag">Up next</span>' : ''}</div>
-        <div class="when"><span class="dow">${e.dow}</span> ${e.date} · <span class="time">${e.time}</span></div>
-        <div class="where">${e.room}</div>
-        <div class="go" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </div>
-      </div>
-    `;
-  }).join('');
 
   /* reveal */
   const io = new IntersectionObserver(entries => {

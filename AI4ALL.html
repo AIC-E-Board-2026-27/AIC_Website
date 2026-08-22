@@ -456,42 +456,25 @@
     border-radius:20px;
     padding:10px;
   }
-  .form-cta{
+  .form-frame iframe{
+    display:block;
+    width:100%;
+    height:1500px;
+    border:0;
+    background:#fff;
+    border-radius:12px;
+  }
+  .join-note{
+    max-width:748px; margin:22px auto 0;
     text-align:center;
-    padding: 48px 28px 44px;
-  }
-  .form-cta .fc-title{
-    font-family:var(--serif); font-weight:500;
-    font-size:26px; letter-spacing:-0.02em; color:var(--ink);
-  }
-  .form-cta .fc-desc{
-    margin: 14px auto 26px; max-width:452px;
-    font-size:14.5px; line-height:1.62; color:var(--ink-dim);
-  }
-  .form-cta .fc-desc strong{ color:var(--ink); font-weight:600; }
-  .cta-open{
-    display:inline-flex; align-items:center; gap:9px;
-    height:50px; padding:0 28px;
-    border-radius:999px;
-    background:linear-gradient(120deg, var(--aic-teal), var(--aic-purple));
-    color:#fff;
-    font-family:var(--sans); font-size:14.5px; font-weight:600;
-    letter-spacing:-0.005em;
-    box-shadow: 0 14px 34px -12px rgba(107,79,187,.5);
-    transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
-  }
-  .cta-open:hover{ transform:translateY(-1px); filter:brightness(1.08); box-shadow:0 18px 44px -14px rgba(107,79,187,.6); }
-  .cta-open:active{ transform:translateY(0) scale(.99); }
-  .cta-open svg{ width:15px; height:15px; }
-  .fc-note{
-    margin-top:18px;
-    font-family:var(--mono); font-size:10.5px; letter-spacing:.06em;
+    font-family:var(--mono); font-size:11px; letter-spacing:.05em;
     color:var(--ink-faint);
   }
+  .join-note a{ color:var(--ink-dim); border-bottom:1px solid var(--line-strong); padding-bottom:1px; }
+  .join-note a:hover{ color:var(--ink); }
   @media (max-width:640px){
     .form-frame .inner{ padding:6px; }
-    .form-cta{ padding:38px 20px 34px; }
-    .form-cta .fc-title{ font-size:23px; }
+    .form-frame iframe{ height:1650px; }
   }
 
   ::selection{ background:var(--aic-teal); color:var(--aic-obsidian); }
@@ -564,19 +547,16 @@
 
     <div class="form-frame reveal d1">
       <div class="inner">
-        <div class="form-cta">
-          <div class="fc-title">AIC Track Interest Form</div>
-          <p class="fc-desc">
-            Sign in with your <strong>@umich.edu</strong> account to pick your tracks and
-            join the newsletter — it takes about two minutes.
-          </p>
-          <a class="cta-open" href="https://docs.google.com/forms/d/e/1FAIpQLSfQSxsaF6A3wpTZ3Ci8zxQ7aIErh3ceeiOcqCI4ebiONCphHA/viewform" target="_blank" rel="noopener">
-            Open the interest form
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
-          </a>
-          <div class="fc-note">Opens in a new tab · umich sign-in required</div>
-        </div>
+        <iframe
+          src="https://docs.google.com/forms/d/e/1FAIpQLSfQSxsaF6A3wpTZ3Ci8zxQ7aIErh3ceeiOcqCI4ebiONCphHA/viewform?embedded=true"
+          title="AIC Track Interest Form"
+          loading="lazy">Loading the form…</iframe>
       </div>
+    </div>
+
+    <div class="join-note reveal d2">
+      The form is right here — fill it out without leaving the page. Prefer a full page?
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQSxsaF6A3wpTZ3Ci8zxQ7aIErh3ceeiOcqCI4ebiONCphHA/viewform" target="_blank" rel="noopener">Open it in a new tab →</a>
     </div>
   </div>
 </section>

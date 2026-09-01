@@ -264,14 +264,61 @@
   }
 
   .event-list{ display:flex; flex-direction:column; }
-  .events-soon{
-    padding: 72px 0 44px;
-    text-align:center;
-    font-family:var(--serif);
-    font-size:clamp(30px, 4.5vw, 48px);
-    font-weight:400;
-    letter-spacing:-0.02em;
-    color:var(--ink-dim);
+  /* track filter bar */
+  .filter-bar{
+    margin-bottom:8px;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+    flex-wrap:wrap; gap:14px;
+  }
+  .filters{ display:flex; gap:8px; flex-wrap:wrap; }
+  .chip{
+    font-family:var(--mono); font-size:11px; letter-spacing:.1em;
+    text-transform:uppercase;
+    padding:7px 13px; border-radius:999px; cursor:pointer;
+    border:1px solid var(--line);
+    color:var(--ink-dim); background:transparent;
+    transition: all .2s ease;
+  }
+  .chip:hover{ color:var(--ink); border-color:var(--line-strong); }
+  .chip[aria-selected="true"]{
+    background:var(--ink); color:var(--aic-obsidian); border-color:var(--ink);
+  }
+  .count{
+    font-family:var(--mono); font-size:11px; letter-spacing:.1em;
+    color:var(--ink-faint); text-transform:uppercase;
+  }
+
+  /* per-track groups */
+  .track-group{ padding:56px 0 0; }
+  .track-group.hidden{ display:none; }
+  .track-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    gap:24px; margin-bottom:22px;
+  }
+  .track-title{
+    font-family:var(--serif); font-size:clamp(26px, 3vw, 36px); font-weight:400;
+    letter-spacing:-0.025em;
+  }
+  .track-sub{
+    display:block; margin-top:6px;
+    font-family:var(--sans); font-size:13px; font-weight:400;
+    color:var(--ink-faint); letter-spacing:0;
+  }
+  .track-meta{
+    font-family:var(--mono); font-size:11px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--ink-faint);
+    white-space:nowrap;
+  }
+  .term-divider{
+    font-family:var(--mono); font-size:10px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--ink-faint);
+    padding:26px 0 10px;
+  }
+  .track-group .event{ cursor:default; }
+  @media (max-width:600px){
+    .track-head{ flex-direction:column; gap:8px; }
   }
   .event{
     display:grid;
@@ -419,6 +466,535 @@
   .foot-inner{ display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
   .foot-inner a:hover{ color:var(--ink); }
 
+
+  /* ===================================================================
+     THE YEAR AHEAD  ·  2026–27 planned events, grouped by track
+     Source: AIC Track Interest Form option lists + board planning.
+     Dates are tentative pending room reservations.
+     =================================================================== */
+  const TRACKS = [
+    {
+      "id": "cross",
+      "name": "Club-Wide",
+      "sub": "Kickoffs, recruitment & the year-end showcase",
+      "est": "60–250",
+      "events": [
+        {
+          "n": "C1",
+          "title": "Fall Kickoff & Mass Meeting",
+          "tag": "Kickoff",
+          "dow": "WED",
+          "date": "Sep 9, 2026",
+          "time": "5:00 – 6:30 PM",
+          "room": "Kochoff Hall C",
+          "term": "fall",
+          "purpose": "Open the year: what AIC is, how the three tracks work, how to join, and the full Fall calendar. Primary recruitment event of the semester.",
+          "exp": "80–120"
+        },
+        {
+          "n": "C2",
+          "title": "Involvement Fair Tabling",
+          "tag": "Outreach",
+          "dow": "THU",
+          "date": "Sep 10, 2026",
+          "time": "11:00 AM – 2:00 PM",
+          "room": "University Center",
+          "term": "fall",
+          "purpose": "Table at the campus involvement fair to collect interest-form signups and drive newsletter subscriptions across all colleges.",
+          "exp": "200+ reached"
+        },
+        {
+          "n": "C3",
+          "title": "Winter Kickoff & Track Open House",
+          "tag": "Kickoff",
+          "dow": "WED",
+          "date": "Jan 13, 2027",
+          "time": "5:00 – 6:30 PM",
+          "room": "Kochoff Hall C",
+          "term": "winter",
+          "purpose": "Re-onboard returning members, recruit new Winter students, and present the Winter calendar for all three tracks.",
+          "exp": "60–90"
+        },
+        {
+          "n": "C4",
+          "title": "End-of-Year Showcase & Awards",
+          "tag": "Showcase",
+          "dow": "THU",
+          "date": "Apr 15, 2027",
+          "time": "5:00 – 7:30 PM",
+          "room": "Kochoff Hall C",
+          "term": "winter",
+          "purpose": "Project demos from SET, the Research Track, and the Embodied AI team; member awards and e-board transition.",
+          "exp": "80–120"
+        }
+      ]
+    },
+    {
+      "id": "ai4all",
+      "name": "AI4ALL",
+      "sub": "Open workshops - biweekly Tuesdays, all majors",
+      "est": "40–60",
+      "events": [
+        {
+          "n": "11",
+          "title": "AI for Software Engineers",
+          "tag": "Career",
+          "dow": "TUE",
+          "date": "Sep 22, 2026",
+          "time": "5:00 – 6:00 PM",
+          "room": "CASL 1014",
+          "term": "fall",
+          "purpose": "How AI has changed the day-to-day of software work, and what employers in the Detroit corridor now expect from new grads.",
+          "exp": "45–60"
+        },
+        {
+          "n": "12",
+          "title": "AI in Finance & Markets",
+          "tag": "Applied",
+          "dow": "TUE",
+          "date": "Oct 6, 2026",
+          "time": "5:00 – 6:00 PM",
+          "room": "ELB 1321",
+          "term": "fall",
+          "purpose": "Forecasting, fraud and risk models, and algorithmic trading - where AI genuinely moves the needle in finance and where it does not.",
+          "exp": "40–55"
+        },
+        {
+          "n": "13",
+          "title": "Building with LLMs - Hands-On",
+          "tag": "Hands-on",
+          "dow": "THU",
+          "date": "Oct 22, 2026",
+          "time": "4:00 – 5:30 PM",
+          "room": "CIS 239 (lab)",
+          "term": "fall",
+          "purpose": "Laptop workshop: build and ship a small LLM-backed app end to end. No prior ML background required.",
+          "exp": "30–45"
+        },
+        {
+          "n": "14",
+          "title": "AI & Privacy",
+          "tag": "Ethics",
+          "dow": "TUE",
+          "date": "Nov 3, 2026",
+          "time": "5:00 – 6:00 PM",
+          "room": "ELB 1321",
+          "term": "fall",
+          "purpose": "What models retain, what regulation actually requires, and how students should think about their own data.",
+          "exp": "40–55"
+        },
+        {
+          "n": "15",
+          "title": "AI in Manufacturing & Mobility",
+          "tag": "Applied",
+          "dow": "TUE",
+          "date": "Nov 17, 2026",
+          "time": "5:00 – 6:00 PM",
+          "room": "Kochoff Hall C",
+          "term": "fall",
+          "purpose": "Predictive maintenance, computer vision on the line, and autonomy - the AI stack behind Michigan's largest industry.",
+          "exp": "45–60"
+        },
+        {
+          "n": "16",
+          "title": "Foundations: How Models Actually Learn",
+          "tag": "Foundations",
+          "dow": "TUE",
+          "date": "Jan 26, 2027",
+          "time": "5:00 – 6:00 PM",
+          "room": "ELB 1321",
+          "term": "winter",
+          "purpose": "A from-scratch explanation of training, loss and generalization for the new Winter cohort - the on-ramp for every later workshop.",
+          "exp": "45–60"
+        },
+        {
+          "n": "17",
+          "title": "AI in Law & Public Policy",
+          "tag": "Applied",
+          "dow": "TUE",
+          "date": "Feb 9, 2027",
+          "time": "5:00 – 6:00 PM",
+          "room": "CASL 1041",
+          "term": "winter",
+          "purpose": "Contract review, e-discovery, and the regulation taking shape around model deployment in the US and EU.",
+          "exp": "35–50"
+        },
+        {
+          "n": "18",
+          "title": "AI & Creativity: Generative Media",
+          "tag": "Applied",
+          "dow": "TUE",
+          "date": "Mar 9, 2027",
+          "time": "5:00 – 6:00 PM",
+          "room": "Kochoff Hall C",
+          "term": "winter",
+          "purpose": "Image, audio and video generation - the tooling, the copyright fight, and what it means for creative careers.",
+          "exp": "45–65"
+        },
+        {
+          "n": "19",
+          "title": "AI for Career Readiness 2027",
+          "tag": "Career",
+          "dow": "TUE",
+          "date": "Mar 23, 2027",
+          "time": "5:00 – 6:00 PM",
+          "room": "CASL 1014",
+          "term": "winter",
+          "purpose": "Resumes, portfolios and interview prep for AI-adjacent roles, timed ahead of summer internship decisions.",
+          "exp": "50–70"
+        },
+        {
+          "n": "20",
+          "title": "What Comes After the Chatbot?",
+          "tag": "Foundations",
+          "dow": "TUE",
+          "date": "Apr 6, 2027",
+          "time": "5:00 – 6:00 PM",
+          "room": "ELB 1321",
+          "term": "winter",
+          "purpose": "Agents, embodied systems and the research directions likely to define the next few years. Closes the AI4ALL year.",
+          "exp": "40–55"
+        }
+      ]
+    },
+    {
+      "id": "set",
+      "name": "Software Engineering Track (SET)",
+      "sub": "Hands-on lab sessions - Thursdays, laptop required",
+      "est": "25–40",
+      "events": [
+        {
+          "n": "S1",
+          "title": "Using CLI Tools: Claude Code, Codex, Antigravity",
+          "tag": "Tooling",
+          "dow": "THU",
+          "date": "Sep 24, 2026",
+          "time": "4:00 – 5:30 PM",
+          "room": "CIS 239 (lab)",
+          "term": "fall",
+          "purpose": "Install and drive agentic command-line coding tools on a real repository. The entry point for the whole SET sequence.",
+          "exp": "30–40"
+        },
+        {
+          "n": "S2",
+          "title": "Managing AI Workflows & Tooling",
+          "tag": "Tooling",
+          "dow": "THU",
+          "date": "Oct 8, 2026",
+          "time": "4:00 – 5:30 PM",
+          "room": "CIS 239 (lab)",
+          "term": "fall",
+          "purpose": "Plugins, skills and custom commands - turning ad-hoc prompting into a repeatable engineering workflow.",
+          "exp": "25–35"
+        },
+        {
+          "n": "S3",
+          "title": "APIs vs. Subscriptions: Choosing Your AI Stack",
+          "tag": "Practical",
+          "dow": "THU",
+          "date": "Oct 29, 2026",
+          "time": "4:00 – 5:30 PM",
+          "room": "CIS 239 (lab)",
+          "term": "fall",
+          "purpose": "When to call an API, when to buy a seat, and how to read provider pricing without getting surprised.",
+          "exp": "25–35"
+        },
+        {
+          "n": "S4",
+          "title": "Efficient Cost & Token Management",
+          "tag": "Practical",
+          "dow": "THU",
+          "date": "Nov 12, 2026",
+          "time": "4:00 – 5:30 PM",
+          "room": "CIS 239 (lab)",
+          "term": "fall",
+          "purpose": "Context windows, caching and batching - keeping a student or startup project inside a real budget.",
+          "exp": "25–35"
+        },
+        {
+          "n": "S5",
+          "title": "Responsible AI Use & Cybersecurity",
+          "tag": "Security",
+          "dow": "THU",
+          "date": "Dec 3, 2026",
+          "time": "4:00 – 5:30 PM",
+          "room": "CIS 239 (lab)",
+          "term": "fall",
+          "purpose": "Prompt injection, secret handling, and academic-integrity policy - using these tools without creating an incident.",
+          "exp": "30–40"
+        },
+        {
+          "n": "S6",
+          "title": "Local AI: Running Models on Your Machine",
+          "tag": "Hands-on",
+          "dow": "THU",
+          "date": "Jan 21, 2027",
+          "time": "4:00 – 5:30 PM",
+          "room": "CIS 239 (lab)",
+          "term": "winter",
+          "purpose": "Open-weight models on a laptop or lab GPU - quantization, runtimes, and when local beats an API.",
+          "exp": "30–40"
+        },
+        {
+          "n": "S7",
+          "title": "Agentic & Autonomous Models",
+          "tag": "Advanced",
+          "dow": "THU",
+          "date": "Feb 18, 2027",
+          "time": "4:00 – 5:30 PM",
+          "room": "CIS 239 (lab)",
+          "term": "winter",
+          "purpose": "Build an agent that plans, calls tools and recovers from failure - plus the guardrails it needs.",
+          "exp": "25–35"
+        },
+        {
+          "n": "S8",
+          "title": "Mixture of Experts & Agent Panels",
+          "tag": "Advanced",
+          "dow": "THU",
+          "date": "Mar 18, 2027",
+          "time": "4:00 – 5:30 PM",
+          "room": "CIS 239 (lab)",
+          "term": "winter",
+          "purpose": "Routing work across specialized models and multi-agent review panels - architecture and the cost tradeoffs.",
+          "exp": "20–30"
+        },
+        {
+          "n": "S9",
+          "title": "AI Tooling Certification Cohort",
+          "tag": "Capstone",
+          "dow": "THU",
+          "date": "Apr 8, 2027",
+          "time": "4:00 – 6:00 PM",
+          "room": "CIS 239 (lab)",
+          "term": "winter",
+          "purpose": "Guided prep and a proctored sitting for an industry AI-tooling certification; members finish with a credential for their resume.",
+          "exp": "20–30"
+        }
+      ]
+    },
+    {
+      "id": "rt",
+      "name": "Research Track (RT)",
+      "sub": "Reading-group seminars - Fridays, paper circulated in advance",
+      "est": "12–20",
+      "events": [
+        {
+          "n": "R1",
+          "title": "Foundations: Deep Learning & Neural Networks",
+          "tag": "Foundations",
+          "dow": "FRI",
+          "date": "Sep 18, 2026",
+          "time": "3:00 – 4:30 PM",
+          "room": "ELB 1321",
+          "term": "fall",
+          "purpose": "Set the shared vocabulary for the year - backprop, architectures, and how to read an ML paper.",
+          "exp": "15–25"
+        },
+        {
+          "n": "R2",
+          "title": "Classical & Statistical Machine Learning",
+          "tag": "Foundations",
+          "dow": "FRI",
+          "date": "Oct 16, 2026",
+          "time": "3:00 – 4:30 PM",
+          "room": "ELB 1321",
+          "term": "fall",
+          "purpose": "The pre-deep-learning canon that still wins on tabular data, and why baselines matter.",
+          "exp": "12–20"
+        },
+        {
+          "n": "R3",
+          "title": "Large Language Models",
+          "tag": "Core",
+          "dow": "FRI",
+          "date": "Nov 13, 2026",
+          "time": "3:00 – 4:30 PM",
+          "room": "ELB 1321",
+          "term": "fall",
+          "purpose": "Pretraining, scaling behavior and post-training - reading the primary papers rather than the summaries.",
+          "exp": "15–25"
+        },
+        {
+          "n": "R4",
+          "title": "Architectures Beyond Transformers",
+          "tag": "Frontier",
+          "dow": "FRI",
+          "date": "Dec 11, 2026",
+          "time": "3:00 – 4:30 PM",
+          "room": "ELB 1321",
+          "term": "fall",
+          "purpose": "State-space models, recurrent revivals and hybrids - what is actually competing with attention.",
+          "exp": "12–20"
+        },
+        {
+          "n": "R5",
+          "title": "Model Efficiency",
+          "tag": "Core",
+          "dow": "FRI",
+          "date": "Jan 22, 2027",
+          "time": "3:00 – 4:30 PM",
+          "room": "ELB 1321",
+          "term": "winter",
+          "purpose": "Distillation, sparsity and quantization - the research behind making large models affordable.",
+          "exp": "12–20"
+        },
+        {
+          "n": "R6",
+          "title": "Reinforcement Learning & Agentic AI",
+          "tag": "Core",
+          "dow": "FRI",
+          "date": "Feb 5, 2027",
+          "time": "3:00 – 4:30 PM",
+          "room": "ELB 1321",
+          "term": "winter",
+          "purpose": "Policy learning, RLHF and the open problems in long-horizon autonomous behavior.",
+          "exp": "12–20"
+        },
+        {
+          "n": "R7",
+          "title": "Computer Vision & Generative Diffusion",
+          "tag": "Core",
+          "dow": "FRI",
+          "date": "Feb 19, 2027",
+          "time": "3:00 – 4:30 PM",
+          "room": "ELB 1321",
+          "term": "winter",
+          "purpose": "From convolutions to diffusion and video models - the lineage of modern visual generation.",
+          "exp": "12–20"
+        },
+        {
+          "n": "R8",
+          "title": "AI Security & Adversarial ML",
+          "tag": "Security",
+          "dow": "FRI",
+          "date": "Mar 12, 2027",
+          "time": "3:00 – 4:30 PM",
+          "room": "ELB 1321",
+          "term": "winter",
+          "purpose": "Adversarial examples, jailbreaks and data poisoning - how models fail when someone wants them to.",
+          "exp": "15–25"
+        },
+        {
+          "n": "R9",
+          "title": "AI/ML Supply Chain & Model Provenance",
+          "tag": "Security",
+          "dow": "FRI",
+          "date": "Mar 26, 2027",
+          "time": "3:00 – 4:30 PM",
+          "room": "ELB 1321",
+          "term": "winter",
+          "purpose": "Where weights, datasets and dependencies come from, and how provenance is verified (or is not).",
+          "exp": "12–20"
+        },
+        {
+          "n": "R10",
+          "title": "AI Ethics, Fairness & Safety",
+          "tag": "Ethics",
+          "dow": "FRI",
+          "date": "Apr 9, 2027",
+          "time": "3:00 – 4:30 PM",
+          "room": "ELB 1321",
+          "term": "winter",
+          "purpose": "Bias measurement, evaluation and alignment research - closing the seminar year on the hardest open questions.",
+          "exp": "15–25"
+        }
+      ]
+    },
+    {
+      "id": "embodied",
+      "name": "Embodied AI Team",
+      "sub": "New this year - project team, application-based",
+      "est": "10–35",
+      "events": [
+        {
+          "n": "E1",
+          "title": "Embodied AI Team Info Session",
+          "tag": "New",
+          "dow": "WED",
+          "date": "Sep 30, 2026",
+          "time": "5:00 – 6:00 PM",
+          "room": "CIS 239 (lab)",
+          "term": "fall",
+          "purpose": "Scope the year's robotics project (AI-driven robotic arm performing manipulation tasks), outline required skills, and open team applications.",
+          "exp": "20–35"
+        },
+        {
+          "n": "E2",
+          "title": "Build Sprints (biweekly)",
+          "tag": "Project",
+          "dow": "BIWEEKLY",
+          "date": "Oct 2026 – Mar 2027",
+          "time": "2 hrs",
+          "room": "Engineering lab space",
+          "term": "both",
+          "purpose": "Recurring working sessions for the core team: perception, control and integration, building toward a live demo at the year-end showcase.",
+          "exp": "10–18 core"
+        }
+      ]
+    }
+  ];
+
+  const TERM_LABEL = { fall:"Fall 2026", winter:"Winter 2027", both:"Fall 2026 – Winter 2027" };
+
+  const groupsEl = document.getElementById('event-groups');
+  const countEl  = document.getElementById('event-count');
+
+  function eventRow(e){
+    return `
+      <div class="event" tabindex="0">
+        <div class="idx">${e.n}</div>
+        <div class="title">${e.title}${e.tag ? `<span class="tag">${e.tag}</span>` : ''}</div>
+        <div class="when"><span class="dow">${e.dow}</span> ${e.date} · <span class="time">${e.time}</span></div>
+        <div class="where">${e.room}</div>
+        <div class="go" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </div>
+      </div>`;
+  }
+
+  groupsEl.innerHTML = TRACKS.map(t => {
+    let body = '', lastTerm = null;
+    t.events.forEach(e => {
+      if(e.term !== lastTerm){
+        if(lastTerm !== null) body += '</div>';
+        body += `<div class="term-divider">${TERM_LABEL[e.term] || ''}</div><div class="event-list">`;
+        lastTerm = e.term;
+      }
+      body += eventRow(e);
+    });
+    if(lastTerm !== null) body += '</div>';
+    const n = t.events.length;
+    return `
+      <div class="track-group" data-track="${t.id}">
+        <div class="track-head">
+          <div class="track-title">${t.name}<span class="track-sub">${t.sub}</span></div>
+          <div class="track-meta">${n} ${n === 1 ? 'session' : 'sessions'} · ~${t.est} expected</div>
+        </div>
+        ${body}
+      </div>`;
+  }).join('');
+
+  function updateCount(filter){
+    const shown = TRACKS
+      .filter(t => filter === 'all' || t.id === filter)
+      .reduce((s, t) => s + t.events.length, 0);
+    countEl.textContent = `${shown} ${shown === 1 ? 'event' : 'events'} · 2026–27`;
+  }
+  updateCount('all');
+
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(c =>
+        c.setAttribute('aria-selected', c === chip ? 'true' : 'false'));
+      const f = chip.dataset.filter;
+      document.querySelectorAll('.track-group').forEach(g => {
+        g.classList.toggle('hidden', f !== 'all' && g.dataset.track !== f);
+      });
+      updateCount(f);
+    });
+  });
+
   /* reveal */
   .reveal{ opacity:0; transform:translateY(10px); transition: opacity .8s ease, transform .8s ease; }
   .reveal.in{ opacity:1; transform:none; }
@@ -523,16 +1099,34 @@
     </div>
   </div>
 
-  <div class="scroll-cue reveal d4"><span>Upcoming</span><span class="line"></span></div>
+  <div class="scroll-cue reveal d4"><span>The year ahead</span><span class="line"></span></div>
 </div>
 
 <section class="events">
   <div class="wrap">
     <div class="events-head reveal">
-      <h2>Upcoming <span class="italic">events</span></h2>
+      <h2>The <span class="italic">year</span> ahead</h2>
+      <span class="label">2026&ndash;27 <em>&middot; Tentative</em></span>
     </div>
 
-    <div class="events-soon reveal d1">Coming soon</div>
+    <div class="filter-bar reveal d1">
+      <div class="filters" role="tablist" aria-label="Filter events by track">
+        <button class="chip" data-filter="all" aria-selected="true">All tracks</button>
+        <button class="chip" data-filter="cross" aria-selected="false">Club-wide</button>
+        <button class="chip" data-filter="ai4all" aria-selected="false">AI4ALL</button>
+        <button class="chip" data-filter="set" aria-selected="false">SET</button>
+        <button class="chip" data-filter="rt" aria-selected="false">Research</button>
+        <button class="chip" data-filter="embodied" aria-selected="false">Embodied AI</button>
+      </div>
+      <div class="count" id="event-count"></div>
+    </div>
+
+    <div id="event-groups" class="reveal d2"></div>
+
+    <div class="events-foot reveal d3">
+      <span>Free &middot; Open to all majors &middot; Dates tentative</span>
+      <a href="archive.html">See the full archive &rarr;</a>
+    </div>
   </div>
 </section>
 

@@ -467,206 +467,6 @@
   .foot-inner a:hover{ color:var(--ink); }
 
 
-  /* ===================================================================
-     THE YEAR AHEAD  ·  2026–27 planned events, grouped by track
-     Source: AIC Track Interest Form option lists + board planning.
-     Dates are tentative pending room reservations.
-     =================================================================== */
-  const TRACKS = [
-    {
-      "id": "cross",
-      "name": "Club-Wide",
-      "sub": "Kickoffs and the year-end showcase",
-      "est": "60–120",
-      "events": [
-        {
-          "n": "C1",
-          "title": "Fall Kickoff & Mass Meeting",
-          "tag": "Kickoff",
-          "dow": "WED",
-          "date": "Sep 9, 2026",
-          "time": "5:00 – 6:30 PM",
-          "room": "Room TBD",
-          "term": "fall"
-        },
-        {
-          "n": "C3",
-          "title": "Winter Kickoff & Track Open House",
-          "tag": "Kickoff",
-          "dow": "WED",
-          "date": "Jan 13, 2027",
-          "time": "5:00 – 6:30 PM",
-          "room": "Room TBD",
-          "term": "winter"
-        },
-        {
-          "n": "C4",
-          "title": "End-of-Year Showcase & Awards",
-          "tag": "Showcase",
-          "dow": "THU",
-          "date": "Apr 15, 2027",
-          "time": "5:00 – 7:30 PM",
-          "room": "Room TBD",
-          "term": "winter"
-        }
-      ]
-    },
-    {
-      "id": "ai4all",
-      "name": "AI4ALL",
-      "sub": "Open workshops – biweekly Tuesdays, all majors",
-      "est": "30–70",
-      "events": [
-        {
-          "n": "11",
-          "title": "AI for Software Engineers",
-          "tag": "Career",
-          "dow": "TUE",
-          "date": "Sep 22, 2026",
-          "time": "5:00 – 6:00 PM",
-          "room": "Room TBD",
-          "term": "fall"
-        },
-        {
-          "n": "13",
-          "title": "Building with LLMs – Hands-On",
-          "tag": "Hands-on",
-          "dow": "THU",
-          "date": "Oct 22, 2026",
-          "time": "4:00 – 5:30 PM",
-          "room": "Room TBD",
-          "term": "fall"
-        },
-        {
-          "n": "19",
-          "title": "AI for Career Readiness 2027",
-          "tag": "Career",
-          "dow": "TUE",
-          "date": "Mar 23, 2027",
-          "time": "5:00 – 6:00 PM",
-          "room": "Room TBD",
-          "term": "winter"
-        }
-      ]
-    },
-    {
-      "id": "set",
-      "name": "Software Engineering Track (SET)",
-      "sub": "Hands-on lab sessions – Thursdays, laptop required",
-      "est": "30–40",
-      "events": [
-        {
-          "n": "S1",
-          "title": "Using CLI Tools: Claude Code, Codex, Antigravity",
-          "tag": "Tooling",
-          "dow": "THU",
-          "date": "Sep 24, 2026",
-          "time": "4:00 – 5:30 PM",
-          "room": "Room TBD",
-          "term": "fall"
-        },
-        {
-          "n": "S6",
-          "title": "Local AI: Running Models on Your Machine",
-          "tag": "Hands-on",
-          "dow": "THU",
-          "date": "Jan 21, 2027",
-          "time": "4:00 – 5:30 PM",
-          "room": "Room TBD",
-          "term": "winter"
-        }
-      ]
-    },
-    {
-      "id": "rt",
-      "name": "Research Track (RT)",
-      "sub": "Reading-group seminars – Fridays, paper circulated in advance",
-      "est": "12–25",
-      "events": [
-        {
-          "n": "R1",
-          "title": "Foundations: Deep Learning & Neural Networks",
-          "tag": "Foundations",
-          "dow": "FRI",
-          "date": "Sep 18, 2026",
-          "time": "3:00 – 4:30 PM",
-          "room": "Room TBD",
-          "term": "fall"
-        },
-        {
-          "n": "R7",
-          "title": "Computer Vision & Generative Diffusion",
-          "tag": "Core",
-          "dow": "FRI",
-          "date": "Feb 19, 2027",
-          "time": "3:00 – 4:30 PM",
-          "room": "Room TBD",
-          "term": "winter"
-        }
-      ]
-    }
-  ];
-
-  const TERM_LABEL = { fall:"Fall 2026", winter:"Winter 2027", both:"Fall 2026 – Winter 2027" };
-
-  const groupsEl = document.getElementById('event-groups');
-  const countEl  = document.getElementById('event-count');
-
-  function eventRow(e){
-    return `
-      <div class="event" tabindex="0">
-        <div class="idx">${e.n}</div>
-        <div class="title">${e.title}${e.tag ? `<span class="tag">${e.tag}</span>` : ''}</div>
-        <div class="when"><span class="dow">${e.dow}</span> ${e.date} · <span class="time">${e.time}</span></div>
-        <div class="where">${e.room}</div>
-        <div class="go" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </div>
-      </div>`;
-  }
-
-  groupsEl.innerHTML = TRACKS.map(t => {
-    let body = '', lastTerm = null;
-    t.events.forEach(e => {
-      if(e.term !== lastTerm){
-        if(lastTerm !== null) body += '</div>';
-        body += `<div class="term-divider">${TERM_LABEL[e.term] || ''}</div><div class="event-list">`;
-        lastTerm = e.term;
-      }
-      body += eventRow(e);
-    });
-    if(lastTerm !== null) body += '</div>';
-    const n = t.events.length;
-    return `
-      <div class="track-group" data-track="${t.id}">
-        <div class="track-head">
-          <div class="track-title">${t.name}<span class="track-sub">${t.sub}</span></div>
-          <div class="track-meta">${n} ${n === 1 ? 'session' : 'sessions'} · ~${t.est} expected</div>
-        </div>
-        ${body}
-      </div>`;
-  }).join('');
-
-  function updateCount(filter){
-    const shown = TRACKS
-      .filter(t => filter === 'all' || t.id === filter)
-      .reduce((s, t) => s + t.events.length, 0);
-    countEl.textContent = `${shown} ${shown === 1 ? 'event' : 'events'} · 2026–27`;
-  }
-  updateCount('all');
-
-  document.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      document.querySelectorAll('.chip').forEach(c =>
-        c.setAttribute('aria-selected', c === chip ? 'true' : 'false'));
-      const f = chip.dataset.filter;
-      document.querySelectorAll('.track-group').forEach(g => {
-        g.classList.toggle('hidden', f !== 'all' && g.dataset.track !== f);
-      });
-      updateCount(f);
-    });
-  });
-
   /* reveal */
   .reveal{ opacity:0; transform:translateY(10px); transition: opacity .8s ease, transform .8s ease; }
   .reveal.in{ opacity:1; transform:none; }
@@ -894,6 +694,206 @@
       else { timer = setTimeout(tick, HOLD_MS); }
     });
   })();
+
+  /* ===================================================================
+     THE YEAR AHEAD  ·  2026–27 planned events, grouped by track
+     Source: AIC Track Interest Form option lists + board planning.
+     Dates are tentative pending room reservations.
+     =================================================================== */
+  const TRACKS = [
+    {
+      "id": "cross",
+      "name": "Club-Wide",
+      "sub": "Kickoffs and the year-end showcase",
+      "est": "60–120",
+      "events": [
+        {
+          "n": "C1",
+          "title": "Fall Kickoff & Mass Meeting",
+          "tag": "Kickoff",
+          "dow": "WED",
+          "date": "Sep 9, 2026",
+          "time": "5:00 – 6:30 PM",
+          "room": "Room TBD",
+          "term": "fall"
+        },
+        {
+          "n": "C3",
+          "title": "Winter Kickoff & Track Open House",
+          "tag": "Kickoff",
+          "dow": "WED",
+          "date": "Jan 13, 2027",
+          "time": "5:00 – 6:30 PM",
+          "room": "Room TBD",
+          "term": "winter"
+        },
+        {
+          "n": "C4",
+          "title": "End-of-Year Showcase & Awards",
+          "tag": "Showcase",
+          "dow": "THU",
+          "date": "Apr 15, 2027",
+          "time": "5:00 – 7:30 PM",
+          "room": "Room TBD",
+          "term": "winter"
+        }
+      ]
+    },
+    {
+      "id": "ai4all",
+      "name": "AI4ALL",
+      "sub": "Open workshops – biweekly Tuesdays, all majors",
+      "est": "30–70",
+      "events": [
+        {
+          "n": "11",
+          "title": "AI for Software Engineers",
+          "tag": "Career",
+          "dow": "TUE",
+          "date": "Sep 22, 2026",
+          "time": "5:00 – 6:00 PM",
+          "room": "Room TBD",
+          "term": "fall"
+        },
+        {
+          "n": "13",
+          "title": "Building with LLMs – Hands-On",
+          "tag": "Hands-on",
+          "dow": "THU",
+          "date": "Oct 22, 2026",
+          "time": "4:00 – 5:30 PM",
+          "room": "Room TBD",
+          "term": "fall"
+        },
+        {
+          "n": "19",
+          "title": "AI for Career Readiness 2027",
+          "tag": "Career",
+          "dow": "TUE",
+          "date": "Mar 23, 2027",
+          "time": "5:00 – 6:00 PM",
+          "room": "Room TBD",
+          "term": "winter"
+        }
+      ]
+    },
+    {
+      "id": "set",
+      "name": "Software Engineering Track (SET)",
+      "sub": "Hands-on lab sessions – Thursdays, laptop required",
+      "est": "30–40",
+      "events": [
+        {
+          "n": "S1",
+          "title": "Using CLI Tools: Claude Code, Codex, Antigravity",
+          "tag": "Tooling",
+          "dow": "THU",
+          "date": "Sep 24, 2026",
+          "time": "4:00 – 5:30 PM",
+          "room": "Room TBD",
+          "term": "fall"
+        },
+        {
+          "n": "S6",
+          "title": "Local AI: Running Models on Your Machine",
+          "tag": "Hands-on",
+          "dow": "THU",
+          "date": "Jan 21, 2027",
+          "time": "4:00 – 5:30 PM",
+          "room": "Room TBD",
+          "term": "winter"
+        }
+      ]
+    },
+    {
+      "id": "rt",
+      "name": "Research Track (RT)",
+      "sub": "Reading-group seminars – Fridays, paper circulated in advance",
+      "est": "12–25",
+      "events": [
+        {
+          "n": "R1",
+          "title": "Foundations: Deep Learning & Neural Networks",
+          "tag": "Foundations",
+          "dow": "FRI",
+          "date": "Sep 18, 2026",
+          "time": "3:00 – 4:30 PM",
+          "room": "Room TBD",
+          "term": "fall"
+        },
+        {
+          "n": "R7",
+          "title": "Computer Vision & Generative Diffusion",
+          "tag": "Core",
+          "dow": "FRI",
+          "date": "Feb 19, 2027",
+          "time": "3:00 – 4:30 PM",
+          "room": "Room TBD",
+          "term": "winter"
+        }
+      ]
+    }
+  ];
+
+  const TERM_LABEL = { fall:"Fall 2026", winter:"Winter 2027", both:"Fall 2026 – Winter 2027" };
+
+  const groupsEl = document.getElementById('event-groups');
+  const countEl  = document.getElementById('event-count');
+
+  function eventRow(e){
+    return `
+      <div class="event" tabindex="0">
+        <div class="idx">${e.n}</div>
+        <div class="title">${e.title}${e.tag ? `<span class="tag">${e.tag}</span>` : ''}</div>
+        <div class="when"><span class="dow">${e.dow}</span> ${e.date} · <span class="time">${e.time}</span></div>
+        <div class="where">${e.room}</div>
+        <div class="go" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </div>
+      </div>`;
+  }
+
+  groupsEl.innerHTML = TRACKS.map(t => {
+    let body = '', lastTerm = null;
+    t.events.forEach(e => {
+      if(e.term !== lastTerm){
+        if(lastTerm !== null) body += '</div>';
+        body += `<div class="term-divider">${TERM_LABEL[e.term] || ''}</div><div class="event-list">`;
+        lastTerm = e.term;
+      }
+      body += eventRow(e);
+    });
+    if(lastTerm !== null) body += '</div>';
+    const n = t.events.length;
+    return `
+      <div class="track-group" data-track="${t.id}">
+        <div class="track-head">
+          <div class="track-title">${t.name}<span class="track-sub">${t.sub}</span></div>
+          <div class="track-meta">${n} ${n === 1 ? 'session' : 'sessions'} · ~${t.est} expected</div>
+        </div>
+        ${body}
+      </div>`;
+  }).join('');
+
+  function updateCount(filter){
+    const shown = TRACKS
+      .filter(t => filter === 'all' || t.id === filter)
+      .reduce((s, t) => s + t.events.length, 0);
+    countEl.textContent = `${shown} ${shown === 1 ? 'event' : 'events'} · 2026–27`;
+  }
+  updateCount('all');
+
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(c =>
+        c.setAttribute('aria-selected', c === chip ? 'true' : 'false'));
+      const f = chip.dataset.filter;
+      document.querySelectorAll('.track-group').forEach(g => {
+        g.classList.toggle('hidden', f !== 'all' && g.dataset.track !== f);
+      });
+      updateCount(f);
+    });
+  });
 
   /* reveal */
   const io = new IntersectionObserver(entries => {

@@ -3,7 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="description" content="The Artificial Intelligence Club at the University of Michigan-Dearborn: hands-on workshops, AI learning, and community for every major." />
+<meta name="theme-color" content="#0C0C0B" />
 <title>AIC — Artificial Intelligence Club</title>
+<script>document.documentElement.classList.add('js');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:opsz,wght@6..72,300;6..72,400&display=swap" rel="stylesheet" />
@@ -19,7 +22,7 @@
 
     --ink:        var(--aic-off);
     --ink-dim:    #b6b4ad;
-    --ink-faint:  #76746e;
+    --ink-faint:  #85827a;
     --line:       rgba(237,237,233,.10);
     --line-strong:rgba(237,237,233,.22);
 
@@ -172,19 +175,52 @@
   /* primary CTA — Join AIC (scrolls to the interest form) */
   .cta-join{
     margin-top:44px;
-    display:inline-flex; align-items:center; gap:10px;
-    height:52px; padding:0 30px;
+    position:relative;
+    isolation:isolate;
+    display:inline-flex; align-items:center; justify-content:center;
+    min-width:164px; height:52px; padding:0 30px;
+    overflow:hidden;
     border-radius:999px;
     background:var(--aic-off); color:var(--aic-obsidian);
     font-family:var(--sans);
     font-size:15px; font-weight:500; letter-spacing:-0.005em;
     cursor:pointer;
     box-shadow: 0 12px 34px -12px rgba(0,0,0,.6);
-    transition: background .2s ease, transform .15s ease, box-shadow .2s ease;
+    transition: transform .15s ease, box-shadow .2s ease;
   }
-  .cta-join:hover{ background:#fff; transform:translateY(-1px); box-shadow:0 16px 44px -14px rgba(0,0,0,.7); }
+  .cta-join::before{
+    content:"";
+    position:absolute; z-index:0;
+    left:20%; top:50%;
+    width:8px; height:8px;
+    border-radius:8px;
+    background:var(--aic-teal);
+    transform:translate(-50%,-50%) scale(1);
+    transition:transform .32s ease;
+  }
+  .cta-default,
+  .cta-hover{
+    position:relative; z-index:1;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:opacity .3s ease, transform .3s ease;
+  }
+  .cta-default{ transform:translateX(4px); }
+  .cta-hover{
+    position:absolute; inset:0;
+    justify-content:center;
+    opacity:0;
+    transform:translateX(48px);
+  }
+  .cta-join:hover,
+  .cta-join:focus-visible{ transform:translateY(-1px); box-shadow:0 16px 44px -14px rgba(0,0,0,.7); }
+  .cta-join:hover::before,
+  .cta-join:focus-visible::before{ transform:translate(-50%,-50%) scale(34); }
+  .cta-join:hover .cta-default,
+  .cta-join:focus-visible .cta-default{ opacity:0; transform:translateX(48px); }
+  .cta-join:hover .cta-hover,
+  .cta-join:focus-visible .cta-hover{ opacity:1; transform:translateX(0); }
   .cta-join:active{ transform:translateY(0) scale(.99); }
-  .cta-join svg{ width:16px; height:16px; }
+  .cta-hover svg{ width:16px; height:16px; }
 
   .hint{
     margin-top: 16px;
@@ -468,8 +504,9 @@
 
 
   /* reveal */
-  .reveal{ opacity:0; transform:translateY(10px); transition: opacity .8s ease, transform .8s ease; }
-  .reveal.in{ opacity:1; transform:none; }
+  .reveal{ opacity:1; transform:none; }
+  .js .reveal{ opacity:0; transform:translateY(10px); transition: opacity .8s ease, transform .8s ease; }
+  .js .reveal.in{ opacity:1; transform:none; }
   .reveal.d1{ transition-delay:.08s; }
   .reveal.d2{ transition-delay:.16s; }
   .reveal.d3{ transition-delay:.24s; }
@@ -534,6 +571,21 @@
     .form-frame iframe{ height:1650px; }
   }
 
+  a:focus-visible,
+  button:focus-visible{
+    outline:2px solid var(--aic-teal);
+    outline-offset:4px;
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    *,*::before,*::after{
+      animation-duration:.01ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.01ms !important;
+    }
+    .js .reveal{ opacity:1; transform:none; }
+  }
+
   ::selection{ background:var(--aic-teal); color:var(--aic-obsidian); }
 </style>
 </head>
@@ -547,7 +599,7 @@
   <div class="wrap nav-inner">
     <a class="brand" href="#"><span class="brand-name">AIC</span></a>
     <div class="nav-links">
-      <a href="AI4ALL.html" class="current">Home</a>
+      <a href="AI4ALL.html" class="current" aria-current="page">Home</a>
       <a href="#join">Join a Track</a>
       <a href="archive.html">Workshop Archive</a>
     </div>
@@ -564,8 +616,11 @@
         for the future of work and study.
       </p>
       <a class="cta-join reveal d2" href="#join">
-        Join AIC
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+        <span class="cta-default">Join AIC</span>
+        <span class="cta-hover" aria-hidden="true">
+          Join AIC
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
       </a>
       <div class="hint reveal d3">Pick your tracks · Two minutes · Open to all majors</div>
     </div>
@@ -582,17 +637,17 @@
     </div>
 
     <div class="filter-bar reveal d1">
-      <div class="filters" role="tablist" aria-label="Filter events by track">
-        <button class="chip" data-filter="all" aria-selected="true">All tracks</button>
-        <button class="chip" data-filter="cross" aria-selected="false">Club-wide</button>
-        <button class="chip" data-filter="ai4all" aria-selected="false">AI4ALL</button>
-        <button class="chip" data-filter="set" aria-selected="false">SET</button>
-        <button class="chip" data-filter="rt" aria-selected="false">Research</button>
+      <div class="filters" role="group" aria-label="Filter events by track">
+        <button class="chip" data-filter="all" aria-pressed="true">All tracks</button>
+        <button class="chip" data-filter="cross" aria-pressed="false">Club-wide</button>
+        <button class="chip" data-filter="ai4all" aria-pressed="false">AI4ALL</button>
+        <button class="chip" data-filter="set" aria-pressed="false">SET</button>
+        <button class="chip" data-filter="rt" aria-pressed="false">Research</button>
       </div>
       <div class="count" id="event-count"></div>
     </div>
 
-    <div id="event-groups" class="reveal d2"></div>
+    <div id="event-groups" class="reveal d2" aria-live="polite"></div>
 
     <div class="events-foot reveal d3">
       <span>Free &middot; Open to all majors &middot; More sessions announced each term</span>
@@ -666,6 +721,7 @@
     let cur = 0;
     // start with first slide visible
     nodes[0].classList.add('on');
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     // preload next image to make fades smoother
     function preload(i){
@@ -866,7 +922,7 @@
   document.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => {
       document.querySelectorAll('.chip').forEach(c =>
-        c.setAttribute('aria-selected', c === chip ? 'true' : 'false'));
+        c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'));
       const f = chip.dataset.filter;
       document.querySelectorAll('.track-group').forEach(g => {
         g.classList.toggle('hidden', f !== 'all' && g.dataset.track !== f);
@@ -874,6 +930,7 @@
       updateCount(f);
     });
   });
+  document.querySelectorAll('.event[tabindex]').forEach(row => row.removeAttribute('tabindex'));
 
   /* reveal */
   const io = new IntersectionObserver(entries => {

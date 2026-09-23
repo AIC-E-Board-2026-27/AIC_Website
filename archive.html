@@ -3,7 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="description" content="A photo archive of Artificial Intelligence Club workshops at the University of Michigan-Dearborn." />
+<meta name="theme-color" content="#14151a" />
 <title>Workshop Archive — AIC</title>
+<script>document.documentElement.classList.add('js');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
@@ -19,7 +22,7 @@
     --bg-2:#1a1b21;
     --ink: var(--aic-off);
     --ink-dim:#b6b4ad;
-    --ink-faint:#76746e;
+    --ink-faint:#85827a;
     --line:rgba(237,237,233,.10);
     --line-strong:rgba(237,237,233,.22);
 
@@ -212,6 +215,10 @@
     position:relative;
   }
   .card:hover{ transform: translateY(-3px); }
+  .card:focus-visible{
+    outline:2px solid var(--aic-teal);
+    outline-offset:7px;
+  }
 
   .card .media{
     position:relative;
@@ -330,8 +337,23 @@
   .foot-inner a:hover{ color:var(--ink); }
 
   /* reveal */
-  .reveal{ opacity:0; transform:translateY(12px); transition: opacity .8s ease, transform .8s ease; }
-  .reveal.in{ opacity:1; transform:none; }
+  .reveal{ opacity:1; transform:none; }
+  .js .reveal{ opacity:0; transform:translateY(12px); transition: opacity .8s ease, transform .8s ease; }
+  .js .reveal.in{ opacity:1; transform:none; }
+
+  a:focus-visible,
+  button:focus-visible{
+    outline:2px solid var(--aic-teal);
+    outline-offset:4px;
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+      animation-duration:.01ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.01ms !important;
+    }
+    .js .reveal{ opacity:1; transform:none; }
+  }
 
   ::selection{ background:var(--aic-teal); color:var(--aic-obsidian); }
 
@@ -415,7 +437,7 @@
     <a class="brand" href="AI4ALL.html"><span class="brand-name">AIC</span></a>
     <div class="nav-links">
       <a href="AI4ALL.html">Home</a>
-      <a href="archive.html" class="current">Workshop Archive</a>
+      <a href="archive.html" class="current" aria-current="page">Workshop Archive</a>
     </div>
   </div>
 </nav>
@@ -431,10 +453,10 @@
     </p>
 
     <div class="filter-bar reveal">
-      <div class="filters" role="tablist">
-        <button class="chip" data-filter="all" aria-selected="true">All</button>
-        <button class="chip" data-filter="fall25" aria-selected="false">Fall '25</button>
-        <button class="chip" data-filter="winter26" aria-selected="false">Winter '26</button>
+      <div class="filters" role="group" aria-label="Filter workshops by term">
+        <button class="chip" data-filter="all" aria-pressed="true">All</button>
+        <button class="chip" data-filter="fall25" aria-pressed="false">Fall '25</button>
+        <button class="chip" data-filter="winter26" aria-pressed="false">Winter '26</button>
       </div>
       <div class="count" id="count">10 workshops · 19 photographs</div>
     </div>
@@ -469,7 +491,7 @@
 </footer>
 
 <!-- Lightbox -->
-<div class="lightbox" id="lightbox" aria-hidden="true">
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lb-title" tabindex="-1">
   <div class="frame">
     <button class="close" id="lb-close" aria-label="Close">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6l-12 12"/></svg>
@@ -548,6 +570,18 @@
   /* gallery strip removed */
   const stripEl = null;
 
+  document.querySelectorAll('.card').forEach(card => {
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', 'Open workshop photo gallery');
+    card.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        card.click();
+      }
+    });
+  });
+
   /* card hover photo cycling */
   document.querySelectorAll('.card').forEach(card => {
     const imgs = card.querySelectorAll('.media .img');
@@ -571,7 +605,7 @@
   document.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => {
       document.querySelectorAll('.chip').forEach(c =>
-        c.setAttribute('aria-selected', c === chip ? 'true' : 'false'));
+        c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'));
       const f = chip.dataset.filter;
       document.querySelectorAll('.term-section').forEach(t => {
         const k = t.dataset.term;
@@ -589,6 +623,7 @@
   let currentSet = []; // array of photo nums
   let currentMeta = { title:'', sub:'' };
   let curIdx = 0;
+  let lastFocusedCard = null;
   const imgEls = [];
 
   function buildLB(){
@@ -621,11 +656,13 @@
     lb.classList.add('open');
     lb.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    document.getElementById('lb-close').focus();
   }
   function closeLB(){
     lb.classList.remove('open');
     lb.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    lastFocusedCard?.focus();
   }
   document.getElementById('lb-close').addEventListener('click', closeLB);
   document.getElementById('lb-prev').addEventListener('click', () => show(curIdx - 1));
@@ -636,11 +673,28 @@
     if(e.key === 'Escape') closeLB();
     if(e.key === 'ArrowLeft') show(curIdx - 1);
     if(e.key === 'ArrowRight') show(curIdx + 1);
+    if(e.key === 'Tab'){
+      const controls = [
+        document.getElementById('lb-close'),
+        document.getElementById('lb-prev'),
+        document.getElementById('lb-next'),
+      ];
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if(e.shiftKey && document.activeElement === first){
+        e.preventDefault();
+        last.focus();
+      } else if(!e.shiftKey && document.activeElement === last){
+        e.preventDefault();
+        first.focus();
+      }
+    }
   });
 
   // open from a card
   document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', () => {
+      lastFocusedCard = card;
       const term = card.dataset.term;
       const i = +card.dataset.idx;
       const data = (term === 'fall25' ? fall25 : winter26)[i];

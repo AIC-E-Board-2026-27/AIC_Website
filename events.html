@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="description" content="The Artificial Intelligence Club at the University of Michigan-Dearborn: hands-on workshops, AI learning, and community for every major." />
+<meta name="description" content="Upcoming workshops, labs, and gatherings from the Artificial Intelligence Club at U-M Dearborn." />
 <meta name="theme-color" content="#0C0C0B" />
-<title>AIC — Artificial Intelligence Club</title>
+<title>Upcoming Events — AIC</title>
 <script>document.documentElement.classList.add('js');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -27,7 +27,6 @@
     --line-strong:rgba(237,237,233,.22);
 
     --serif:"IBM Plex Serif", "Iowan Old Style", Georgia, serif;
-    --roman:"Newsreader", "Times New Roman", Times, serif;
     --sans:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
     --mono:"IBM Plex Mono", ui-monospace, "JetBrains Mono", Menlo, monospace;
   }
@@ -65,13 +64,6 @@
     transform:scale(1.04);
     filter: saturate(.7) contrast(.95) brightness(.55);
     will-change: opacity, transform;
-  }
-  .bg .slide.brand-slide{
-    background-color:#071d31;
-    background-repeat:no-repeat;
-    background-size:min(720px, 68vw);
-    background-position:center;
-    filter:saturate(.82) contrast(.98) brightness(.62);
   }
   .bg .slide.on{
     opacity:1;
@@ -275,211 +267,6 @@
   }
   .hint .ok{ color: var(--aic-teal); }
 
-  /* ---------- what we do ---------- */
-  section.what-we-do{
-    position:relative;
-    isolation:isolate;
-    padding:118px 0 132px;
-    background:linear-gradient(180deg, rgba(7,12,22,.88), rgba(7,12,22,.64));
-    border-top:1px solid var(--line);
-    border-bottom:1px solid var(--line);
-  }
-  section.what-we-do::before{
-    content:"";
-    position:absolute; inset:0;
-    pointer-events:none;
-    background:radial-gradient(ellipse 70% 46% at 50% 20%, rgba(7,12,22,.76), transparent 74%);
-    opacity:1;
-    z-index:0;
-  }
-  /* Adapted from the MIT-licensed Motiq Luminous Topography component. */
-  .lower-topography{
-    position:relative;
-    isolation:isolate;
-    background:#07101b;
-  }
-  .aic-topography{
-    position:sticky;
-    top:0;
-    height:100svh;
-    margin-bottom:-100svh;
-    z-index:0;
-    overflow:hidden;
-    pointer-events:none;
-    background:
-      radial-gradient(66% 74% at 76% 24%, rgba(107,79,187,.17), transparent 67%),
-      radial-gradient(54% 68% at 14% 82%, rgba(32,178,170,.10), transparent 68%),
-      linear-gradient(145deg, #111725 0%, #0c1019 55%, #080c14 100%);
-  }
-  .aic-topography::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    z-index:1;
-    background:radial-gradient(ellipse 76% 58% at 50% 30%, transparent 0%, rgba(5,8,15,.34) 100%);
-  }
-  .aic-topography svg{ position:relative; z-index:0; width:100%; height:100%; display:block; }
-  .aic-topography .topo-layer{
-    transform-box:fill-box;
-    transform-origin:center;
-    animation:topo-drift var(--topo-duration, 18s) ease-in-out infinite alternate;
-    will-change:transform;
-  }
-  .aic-topography .topo-sweep{
-    animation:topo-sweep 16s ease-in-out infinite alternate;
-    will-change:transform;
-  }
-  .aic-topography[data-paused="true"] .topo-layer,
-  .aic-topography[data-paused="true"] .topo-sweep{ animation-play-state:paused; }
-  @keyframes topo-drift{
-    from{ transform:translate3d(0,0,0); }
-    to{ transform:translate3d(var(--topo-dx, 0px), var(--topo-dy, 0px), 0); }
-  }
-  @keyframes topo-sweep{
-    from{ transform:translateX(-360px); }
-    to{ transform:translateX(360px); }
-  }
-  @media (prefers-reduced-motion:reduce){
-    .aic-topography .topo-layer,
-    .aic-topography .topo-sweep{ animation:none; }
-  }
-  @media (max-width:640px){
-    .aic-topography .topo-layer[data-depth="1"]{ display:none; }
-  }
-  .lower-topography > section,
-  .lower-topography > footer{ position:relative; z-index:1; }
-  .work-intro{
-    position:relative;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    text-align:center;
-    gap:14px;
-    margin-bottom:42px;
-  }
-  .work-kicker{
-    margin-bottom:0;
-    font-family:var(--roman);
-    font-size:clamp(36px,4vw,54px);
-    line-height:1;
-    font-weight:400;
-    letter-spacing:-.035em;
-    text-transform:none;
-    color:var(--ink);
-  }
-  .work-intro p{
-    font-family:var(--roman);
-    max-width:760px;
-    padding-bottom:0;
-    color:var(--ink-dim);
-    font-size:clamp(19px,1.8vw,24px);
-    line-height:1.45;
-    letter-spacing:-.01em;
-  }
-  .program-grid{
-    position:relative;
-    display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:18px;
-  }
-  .program-card{
-    position:relative;
-    isolation:isolate;
-    display:flex;
-    align-items:flex-end;
-    min-height:420px;
-    overflow:hidden;
-    border:1px solid rgba(237,237,233,.14);
-    border-radius:18px;
-    background:#1b1c21;
-    box-shadow:0 20px 44px -28px rgba(0,0,0,.85);
-    transition:transform .32s ease, border-color .32s ease, box-shadow .32s ease;
-  }
-  .program-card img{
-    position:absolute;
-    inset:0;
-    z-index:-2;
-    width:100%; height:100%;
-    object-fit:cover;
-    filter:grayscale(.18) saturate(.78) brightness(.7);
-    transform:scale(1.02);
-    transition:transform .65s ease, filter .45s ease;
-  }
-  .program-card--ai4all img{ object-position:center 62%; }
-  .program-card--set img{ object-position:center 58%; }
-  .program-card--research img{ object-position:center 58%; }
-  .program-card::before{
-    content:"";
-    position:absolute;
-    z-index:-1;
-    inset:0;
-    background:linear-gradient(180deg, rgba(9,10,13,.02) 18%, rgba(9,10,13,.24) 50%, rgba(9,10,13,.94) 100%);
-  }
-  .program-card::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    border:1px solid rgba(255,255,255,.05);
-    border-radius:inherit;
-    pointer-events:none;
-  }
-  .program-content{
-    width:100%;
-    padding:27px 26px 25px;
-  }
-  .program-number{
-    display:block;
-    margin-bottom:42px;
-    font-family:var(--mono);
-    font-size:10px;
-    letter-spacing:.15em;
-    color:rgba(237,237,233,.7);
-  }
-  .program-title{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:16px;
-    font-family:var(--serif);
-    font-size:clamp(26px,2.5vw,34px);
-    line-height:1;
-    letter-spacing:-.025em;
-  }
-  .program-arrow{
-    flex:0 0 auto;
-    font-family:var(--sans);
-    font-size:24px;
-    font-weight:300;
-    transition:transform .3s ease;
-  }
-  .program-content p{
-    margin-top:11px;
-    max-width:34ch;
-    color:rgba(237,237,233,.78);
-    font-size:14px;
-    line-height:1.55;
-  }
-  .program-card:hover,
-  .program-card:focus-visible{
-    transform:translateY(-6px);
-    border-color:rgba(237,237,233,.35);
-    box-shadow:0 26px 52px -27px rgba(0,0,0,.95);
-  }
-  .program-card:hover img,
-  .program-card:focus-visible img{
-    transform:scale(1.08);
-    filter:grayscale(0) saturate(.92) brightness(.82);
-  }
-  .program-card:hover .program-arrow,
-  .program-card:focus-visible .program-arrow{ transform:translate(4px,-4px); }
-  @media (max-width:850px){
-    .work-intro{ grid-template-columns:1fr; gap:18px; }
-    .work-kicker{ margin-bottom:0; }
-    .work-intro p{ max-width:600px; }
-    .program-grid{ grid-template-columns:1fr; }
-    .program-card{ min-height:330px; }
-  }
-
   /* ---------- upcoming events ---------- */
   section.events{
     padding: 120px 0 140px;
@@ -495,8 +282,8 @@
     background:linear-gradient(180deg, rgba(20,21,26,0) 0%, rgba(20,21,26,.85) 70%, #14151a 100%);
     pointer-events:none;
   }
-  /* The lower Home page uses its own animated field, not the photo slideshow. */
-  footer{ background:linear-gradient(180deg, rgba(5,8,14,.58), rgba(5,8,14,.86)) !important; }
+  /* footer also covers slideshow */
+  footer{ background:#101115 !important; }
   .events-head{
     display:flex; align-items:baseline; justify-content:space-between;
     gap:24px; margin-bottom:42px;
@@ -547,7 +334,7 @@
     transition: all .2s ease;
   }
   .chip:hover{ color:var(--ink); border-color:var(--line-strong); }
-  .chip[aria-selected="true"]{
+  .chip[aria-pressed="true"]{
     background:var(--ink); color:var(--aic-obsidian); border-color:var(--ink);
   }
   .count{
@@ -720,9 +507,6 @@
 
   /* ---------- footer ---------- */
   footer{
-    position:relative;
-    isolation:isolate;
-    overflow:hidden;
     padding: 32px 0 36px;
     border-top:1px solid var(--line);
     color:var(--ink-faint);
@@ -747,9 +531,8 @@
   /* ---------- join / interest form ---------- */
   section.join{
     padding: 116px 0 128px;
-    background:linear-gradient(180deg, rgba(7,12,22,.60), rgba(5,8,14,.86));
+    background:#0f1014;
     position:relative;
-    isolation:isolate;
     border-top:1px solid var(--line);
   }
   .join-head{
@@ -830,12 +613,12 @@
 
 <nav class="top">
   <div class="wrap nav-inner">
-    <a class="brand" href="#"><span class="brand-name">AIC</span></a>
+    <a class="brand" href="AI4ALL.html"><span class="brand-name">AIC</span></a>
     <div class="nav-links">
-      <a href="AI4ALL.html" class="current" aria-current="page">Home</a>
-      <a href="#what-we-do">What We Do</a>
-      <a href="events.html">Upcoming Events</a>
-      <a href="#join">Join</a>
+      <a href="AI4ALL.html">Home</a>
+      <a href="AI4ALL.html#what-we-do">What We Do</a>
+      <a href="events.html" class="current" aria-current="page">Upcoming Events</a>
+      <a href="AI4ALL.html#join">Join</a>
       <a href="archive.html">Workshop Archive</a>
     </div>
   </div>
@@ -844,15 +627,15 @@
 <div class="hero-section">
   <div class="wrap">
     <div class="hero">
-      <h1 class="display reveal">Welcome to <span class="italic">AIC</span></h1>
+      <h1 class="display reveal">Upcoming <span class="italic">events</span></h1>
       <p class="lede reveal d1">
-        U-M Dearborn&rsquo;s largest and fastest-growing AI club — home to prestigious
-        programs where students learn, build, and lead with artificial intelligence.
+        Workshops, labs, showcases, and conversations for AIC members ready to learn,
+        build, and meet the people shaping what comes next.
       </p>
-      <a class="cta-join reveal d2" href="#join">
-        <span class="cta-default">Join AIC</span>
+      <a class="cta-join reveal d2" href="#events">
+        <span class="cta-default">View events</span>
         <span class="cta-hover" aria-hidden="true">
-          Join AIC
+          Browse events
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </span>
       </a>
@@ -861,44 +644,29 @@
 
 </div>
 
-<div class="lower-topography">
-  <div class="aic-topography" aria-hidden="true"></div>
-
-<section class="what-we-do" id="what-we-do">
+<section class="events" id="events">
   <div class="wrap">
-    <div class="work-intro reveal">
-      <div class="work-kicker">What we do</div>
-      <p>
-        AIC brings together practical learning, ambitious projects, and research-minded
-        exploration so every member can find their way into AI.
-      </p>
+    <div class="events-head reveal">
+      <h2>On the <span class="italic">calendar</span></h2>
+      <span class="label">2026&ndash;27 <em>&middot; Tentative</em></span>
     </div>
 
-    <div class="program-grid">
-      <a class="program-card program-card--ai4all reveal d1" href="#join">
-        <img src="images/aic-fall-gbm.jpg" alt="A packed AIC General Body Meeting audience" loading="lazy" />
-        <span class="program-content">
-          <span class="program-number">01 · AI4ALL</span>
-          <span class="program-title">AI4ALL <span class="program-arrow" aria-hidden="true">↗</span></span>
-          <p>Hands-on AI workshops that make new tools, ideas, and applications feel approachable.</p>
-        </span>
-      </a>
-      <a class="program-card program-card--set reveal d2" href="#join">
-        <img src="images/w01.jpg" alt="AIC members gathered in a tiered workshop classroom" loading="lazy" />
-        <span class="program-content">
-          <span class="program-number">02 · SOFTWARE ENGINEERING</span>
-          <span class="program-title">SET <span class="program-arrow" aria-hidden="true">↗</span></span>
-          <p>Build with modern developer tools, ship practical projects, and grow alongside other makers.</p>
-        </span>
-      </a>
-      <a class="program-card program-card--research reveal d3" href="#join">
-        <img src="images/w06.jpg" alt="AIC members attending a seminar session" loading="lazy" />
-        <span class="program-content">
-          <span class="program-number">03 · RESEARCH TRACK</span>
-          <span class="program-title">Research <span class="program-arrow" aria-hidden="true">↗</span></span>
-          <p>Explore the questions shaping AI through reading groups, discussion, and guided investigation.</p>
-        </span>
-      </a>
+    <div class="filter-bar reveal d1">
+      <div class="filters" role="group" aria-label="Filter events by track">
+        <button class="chip" data-filter="all" aria-pressed="true">All tracks</button>
+        <button class="chip" data-filter="cross" aria-pressed="false">Club-wide</button>
+        <button class="chip" data-filter="ai4all" aria-pressed="false">AI4ALL</button>
+        <button class="chip" data-filter="set" aria-pressed="false">SET</button>
+        <button class="chip" data-filter="rt" aria-pressed="false">Research</button>
+      </div>
+      <div class="count" id="event-count"></div>
+    </div>
+
+    <div id="event-groups" class="reveal d2" aria-live="polite"></div>
+
+    <div class="events-foot reveal d3">
+      <span>Free &middot; Open to all majors &middot; More sessions announced each term</span>
+      <a href="archive.html">See the full archive &rarr;</a>
     </div>
   </div>
 </section>
@@ -936,7 +704,6 @@
     <div><a href="mailto:aic-eboard@umich.edu">Contact</a></div>
   </div>
 </footer>
-</div>
 
 <script>
   /* ===================================================================
@@ -947,25 +714,20 @@
     const HOLD_MS = 6500;
     const bg = document.getElementById('bg');
 
-    // Show recovered legacy assets first so their full-screen treatment is easy to review.
-    const recoveredSlides = [
-      { src:'images/ai4all-mark.jpg', className:'brand-slide' },
-      { src:'images/aic-fall-gbm.jpg', className:'event-slide' }
+    // Shuffle the original workshop set plus the recovered Fall GBM photo.
+    const order = [
+      ...Array.from({length: 21}, (_, i) => `images/w${String(i + 1).padStart(2, '0')}.jpg`),
+      'images/aic-fall-gbm.jpg'
     ];
-    const workshopSlides = Array.from(
-      {length: 21},
-      (_, i) => ({ src:`images/w${String(i + 1).padStart(2, '0')}.jpg`, className:'workshop-slide' })
-    );
-    for(let i = workshopSlides.length - 1; i > 0; i--){
+    for(let i = order.length - 1; i > 0; i--){
       const j = Math.floor(Math.random() * (i + 1));
-      [workshopSlides[i], workshopSlides[j]] = [workshopSlides[j], workshopSlides[i]];
+      [order[i], order[j]] = [order[j], order[i]];
     }
-    const order = [...recoveredSlides, ...workshopSlides];
 
     // create slide nodes
-    const nodes = order.map(({src, className}) => {
+    const nodes = order.map(src => {
       const d = document.createElement('div');
-      d.className = `slide ${className}`;
+      d.className = 'slide';
       d.style.backgroundImage = `url("${src}")`;
       bg.appendChild(d);
       return d;
@@ -979,7 +741,7 @@
     // preload next image to make fades smoother
     function preload(i){
       const img = new Image();
-      img.src = order[i].src;
+      img.src = order[i];
     }
     preload(1 % nodes.length);
 
@@ -1001,182 +763,6 @@
       if(document.hidden){ clearTimeout(timer); }
       else { timer = setTimeout(tick, HOLD_MS); }
     });
-  })();
-
-  /* ===================================================================
-     LUMINOUS TOPOGRAPHY
-     Decorative SVG field adapted for AIC from the MIT-licensed Motiq
-     Luminous Topography component. It stays lightweight, pauses offscreen,
-     and respects reduced-motion preferences.
-     =================================================================== */
-  (() => {
-    const field = document.querySelector('.aic-topography');
-    if(!field) return;
-
-    const NS = 'http://www.w3.org/2000/svg';
-    const W = 1200;
-    const H = 760;
-    const MARGIN = 96;
-    const STEP = 60;
-    const seed = 202627;
-    const focalPoints = [
-      { x:W * .82, y:H * .24, amp:58, sx:220, sy:154 },
-      { x:W * .16, y:H * .74, amp:42, sx:192, sy:138 }
-    ];
-
-    const svgNode = (name, attrs = {}) => {
-      const node = document.createElementNS(NS, name);
-      Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, String(value)));
-      return node;
-    };
-    const round1 = value => Math.round(value * 10) / 10;
-    const clamp = (value, low, high) => Math.min(high, Math.max(low, value));
-    const makeRng = initialSeed => {
-      let value = initialSeed >>> 0;
-      return () => {
-        value = (value + 0x6d2b79f5) | 0;
-        let next = Math.imul(value ^ (value >>> 15), 1 | value);
-        next = (next + Math.imul(next ^ (next >>> 7), 61 | next)) ^ next;
-        return ((next ^ (next >>> 14)) >>> 0) / 4294967296;
-      };
-    };
-    const toPath = points => {
-      if(points.length < 2) return '';
-      let path = `M ${round1(points[0][0])} ${round1(points[0][1])}`;
-      for(let i = 0; i < points.length - 1; i++){
-        const p0 = points[i - 1] || points[i];
-        const p1 = points[i];
-        const p2 = points[i + 1];
-        const p3 = points[i + 2] || p2;
-        const c1x = p1[0] + (p2[0] - p0[0]) / 6;
-        const c1y = p1[1] + (p2[1] - p0[1]) / 6;
-        const c2x = p2[0] - (p3[0] - p1[0]) / 6;
-        const c2y = p2[1] - (p3[1] - p1[1]) / 6;
-        path += ` C ${round1(c1x)} ${round1(c1y)}, ${round1(c2x)} ${round1(c2y)}, ${round1(p2[0])} ${round1(p2[1])}`;
-      }
-      return path;
-    };
-
-    const svg = svgNode('svg', {
-      viewBox:`0 0 ${W} ${H}`,
-      preserveAspectRatio:'xMidYMid slice',
-      role:'presentation'
-    });
-    const uid = 'aic-topography';
-    const safeId = `${uid}-safe`;
-    const sweepId = `${uid}-sweep`;
-    const washId = `${uid}-wash`;
-    const lightId = `${uid}-light`;
-    const safeGradientId = `${uid}-safe-gradient`;
-    const defs = svgNode('defs');
-
-    const wash = svgNode('radialGradient', { id:washId, cx:'78%', cy:'25%', r:'70%' });
-    [[0, '#8b78d4', .20], [55, '#6b4fbb', .06], [100, '#6b4fbb', 0]].forEach(([offset, color, opacity]) => {
-      wash.append(svgNode('stop', { offset:`${offset}%`, 'stop-color':color, 'stop-opacity':opacity }));
-    });
-    const light = svgNode('radialGradient', { id:lightId, cx:'50%', cy:'50%', r:'50%' });
-    [[0, '#ffffff', 1], [55, '#ffffff', .52], [100, '#ffffff', 0]].forEach(([offset, color, opacity]) => {
-      light.append(svgNode('stop', { offset:`${offset}%`, 'stop-color':color, 'stop-opacity':opacity }));
-    });
-    const safeGradient = svgNode('radialGradient', { id:safeGradientId, cx:'50%', cy:'50%', r:'50%' });
-    [['0%', '#202020'], ['58%', '#767676'], ['100%', '#ffffff']].forEach(([offset, color]) => {
-      safeGradient.append(svgNode('stop', { offset, 'stop-color':color }));
-    });
-    const safeMask = svgNode('mask', { id:safeId, maskUnits:'userSpaceOnUse', x:0, y:0, width:W, height:H });
-    safeMask.append(svgNode('rect', { x:0, y:0, width:W, height:H, fill:'#fff' }));
-    safeMask.append(svgNode('ellipse', {
-      cx:W * .5, cy:H * .48, rx:W * .46, ry:H * .38, fill:`url(#${safeGradientId})`
-    }));
-    const sweepMask = svgNode('mask', { id:sweepId, maskUnits:'userSpaceOnUse', x:-W, y:-H, width:W * 3, height:H * 3 });
-    sweepMask.append(svgNode('rect', { x:-W, y:-H, width:W * 3, height:H * 3, fill:'#000' }));
-    const sweep = svgNode('g', { class:'topo-sweep' });
-    sweep.append(svgNode('ellipse', {
-      cx:W / 2, cy:H * .5, rx:W * .42, ry:H * .72, fill:`url(#${lightId})`
-    }));
-    sweepMask.append(sweep);
-    defs.append(wash, light, safeGradient, safeMask, sweepMask);
-    svg.append(defs);
-    svg.append(svgNode('rect', { x:0, y:0, width:W, height:H, fill:`url(#${washId})` }));
-
-    for(let layerIndex = 0; layerIndex < 2; layerIndex++){
-      const random = makeRng(seed + layerIndex * 40503);
-      const contourCount = Math.max(6, Math.round((8 + .58 * 6) * (1 - layerIndex * .07)));
-      const spacing = (H + MARGIN * 2) / contourCount;
-      const layer = svgNode('g', {
-        class:'topo-layer',
-        'data-depth':layerIndex,
-        mask:`url(#${safeId})`
-      });
-      layer.style.setProperty('--topo-dx', `${round1((layerIndex ? 4.8 : -6.5))}px`);
-      layer.style.setProperty('--topo-dy', `${round1(layerIndex ? -1.8 : -2.7)}px`);
-      layer.style.setProperty('--topo-duration', `${18 + layerIndex * 7}s`);
-      layer.style.animationDelay = `${-layerIndex * 2.5}s`;
-      const dimGroup = svgNode('g');
-      const brightGroup = svgNode('g', { mask:`url(#${sweepId})` });
-
-      for(let contourIndex = 0; contourIndex < contourCount; contourIndex++){
-        const baseY = -MARGIN + spacing * (contourIndex + .5) + (random() - .5) * 7;
-        const harmonics = Array.from({ length:3 }, () => ({
-          frequency:.0032 + random() * .0052,
-          amplitude:(5 + random() * 9) * (1 - layerIndex * .12),
-          phase:random() * Math.PI * 2,
-          gradient:(random() - .5) * .012
-        }));
-        const points = [];
-        for(let x = -MARGIN; x <= W + MARGIN; x += STEP){
-          let displacement = 0;
-          focalPoints.forEach(focal => {
-            const dx = x - focal.x;
-            const ex = Math.exp(-(dx * dx) / (2 * focal.sx * focal.sx));
-            const dy = baseY - focal.y;
-            const ey = Math.exp(-(dy * dy) / (2 * focal.sy * focal.sy));
-            displacement += focal.amp * ex * (.46 + .54 * ey * (dy >= 0 ? 1 : -.4)) * (1 - layerIndex * .14);
-          });
-          harmonics.forEach(harmonic => {
-            displacement += harmonic.amplitude * Math.sin(x * harmonic.frequency + harmonic.phase + baseY * harmonic.gradient);
-          });
-          points.push([x, baseY - displacement]);
-        }
-        const d = toPath(points);
-        const opacity = round1(clamp(.34 - layerIndex * .11, .12, .36));
-        dimGroup.append(svgNode('path', {
-          d,
-          fill:'none',
-          stroke:layerIndex ? '#74bdb8' : '#a99ae1',
-          'stroke-opacity':opacity,
-          'stroke-width':round1(1.05 * (1 - layerIndex * .12)),
-          'stroke-linecap':'round',
-          'vector-effect':'non-scaling-stroke'
-        }));
-        brightGroup.append(svgNode('path', {
-          d,
-          fill:'none',
-          stroke:'#9b8be4',
-          'stroke-opacity':round1(.62 - layerIndex * .14),
-          'stroke-width':round1(1.15 * (1 - layerIndex * .1)),
-          'stroke-linecap':'round',
-          'vector-effect':'non-scaling-stroke'
-        }));
-      }
-      layer.append(dimGroup, brightGroup);
-      svg.append(layer);
-    }
-
-    field.append(svg);
-
-    let inView = true;
-    const updatePause = () => {
-      field.dataset.paused = document.hidden || !inView ? 'true' : 'false';
-    };
-    if('IntersectionObserver' in window){
-      const observer = new IntersectionObserver(entries => {
-        inView = entries.some(entry => entry.isIntersecting);
-        updatePause();
-      }, { threshold:.01 });
-      observer.observe(field);
-    }
-    document.addEventListener('visibilitychange', updatePause);
-    updatePause();
   })();
 
   /* ===================================================================
@@ -1304,7 +890,6 @@
   const groupsEl = document.getElementById('event-groups');
   const countEl  = document.getElementById('event-count');
 
-  if(groupsEl && countEl){
   function eventRow(e){
     return `
       <div class="event" tabindex="0">
@@ -1360,7 +945,6 @@
     });
   });
   document.querySelectorAll('.event[tabindex]').forEach(row => row.removeAttribute('tabindex'));
-  }
 
   /* reveal */
   const io = new IntersectionObserver(entries => {

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="description" content="A photo archive of Artificial Intelligence Club workshops at the University of Michigan-Dearborn." />
+<meta name="description" content="The source-verified archive of AIC's AI4ALL workshops and recordings at the University of Michigan-Dearborn." />
 <meta name="theme-color" content="#14151a" />
 <title>Workshop Archive — AIC</title>
 <script>document.documentElement.classList.add('js');</script>
@@ -133,6 +133,17 @@
   .nav-links a:hover::after{ transform:scaleX(1); }
   .nav-links a.current{ color:var(--ink); }
   .nav-links a.current::after{ transform:scaleX(1); opacity:.55; }
+  @media (max-width:800px){
+    nav.top{ padding-top:20px; }
+    .nav-inner{ align-items:flex-start; gap:18px; }
+    .nav-links{ gap:10px 16px; flex-wrap:wrap; justify-content:flex-end; }
+    .nav-links a{ font-size:12px; }
+    .brand-name{ font-size:13px; }
+  }
+  @media (max-width:460px){
+    .nav-inner{ flex-direction:column; align-items:center; }
+    .nav-links{ justify-content:center; }
+  }
 
   /* hero */
   header.page{
@@ -175,7 +186,7 @@
     transition: all .2s ease;
   }
   .chip:hover{ color:var(--ink); border-color:var(--line-strong); }
-  .chip[aria-selected="true"]{
+  .chip[aria-pressed="true"]{
     background:var(--ink); color:var(--aic-obsidian); border-color:var(--ink);
   }
   .count{
@@ -228,6 +239,39 @@
     background:#0e0f12;
     border:1px solid var(--line);
   }
+  .card .media.resource-media{
+    background:
+      radial-gradient(circle at 82% 14%, rgba(107,79,187,.38), transparent 37%),
+      radial-gradient(circle at 12% 86%, rgba(32,178,170,.2), transparent 42%),
+      linear-gradient(135deg, #171a29, #0d1019 62%, #111323);
+  }
+  .resource-cover{
+    position:absolute; inset:0; z-index:1;
+    display:flex; flex-direction:column; justify-content:flex-end; align-items:flex-start;
+    padding:28px;
+    background:
+      linear-gradient(135deg, transparent 0 48%, rgba(255,255,255,.035) 48% 49%, transparent 49% 100%),
+      repeating-linear-gradient(45deg, transparent 0 24px, rgba(255,255,255,.025) 24px 25px);
+  }
+  .resource-cover::before{
+    content:""; width:42px; height:42px; margin-bottom:auto;
+    border:1px solid rgba(237,237,233,.3); border-radius:50%;
+    background:rgba(12,12,11,.28);
+  }
+  .resource-cover--video::before{
+    background:
+      linear-gradient(30deg, transparent 43%, var(--ink) 44% 56%, transparent 57%),
+      rgba(12,12,11,.28);
+  }
+  .resource-cover__eyebrow{
+    font-family:var(--mono); font-size:10px; line-height:1;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--ink-dim);
+  }
+  .resource-cover__title{
+    margin-top:9px; max-width:28ch;
+    font-family:var(--serif); font-size:clamp(24px,2.3vw,34px);
+    line-height:1.03; letter-spacing:-.025em; color:var(--ink);
+  }
   .card .media .img{
     position:absolute; inset:0;
     background-size:cover; background-position:center;
@@ -238,6 +282,13 @@
   }
   .card .media .img.on{ opacity:1; transform:scale(1); }
   .card:hover .media .img.on{ transform:scale(1.05); }
+  /* Preserve every edge of source recording and slide title cards. */
+  .card .media .img.poster{
+    background-color:#0b0c0e;
+    background-repeat:no-repeat;
+    background-size:contain;
+  }
+  .card:hover .media .img.poster.on{ transform:scale(1); }
   /* purple shine border on hover */
   .card .media::after{
     content:"";
@@ -363,28 +414,47 @@
     background:rgba(8,8,9,.92);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    display:none; align-items:center; justify-content:center;
-    padding:48px 24px;
+    display:none; align-items:flex-start; justify-content:center;
+    overflow-y:auto;
+    padding:64px 24px 40px;
   }
   .lightbox.open{ display:flex; }
   .lightbox .frame{
     position:relative;
     max-width:1100px; width:100%;
-    max-height:calc(100vh - 96px);
-    display:grid; grid-template-rows:1fr auto;
-    gap:16px;
+    margin:auto;
   }
+  .lightbox .mode-buttons{
+    display:flex; flex-wrap:wrap; gap:8px;
+    margin:0 0 14px;
+  }
+  .lightbox .mode-button{
+    appearance:none; border:1px solid var(--line-strong);
+    border-radius:999px; padding:8px 12px;
+    background:rgba(12,12,11,.72); color:var(--ink-dim);
+    font-family:var(--mono); font-size:10px; line-height:1;
+    letter-spacing:.1em; text-transform:uppercase; cursor:pointer;
+    transition:background .2s ease, border-color .2s ease, color .2s ease;
+  }
+  .lightbox .mode-button:hover,
+  .lightbox .mode-button[aria-selected="true"]{
+    background:rgba(107,79,187,.18); border-color:rgba(151,127,228,.7); color:var(--ink);
+  }
+  .lightbox .mode-button[hidden]{ display:none; }
   .lightbox .stage{
     position:relative;
     border-radius:8px; overflow:hidden;
     background:#0a0a0d;
     border:1px solid var(--line);
-    min-height:55vh;
+    aspect-ratio:16 / 10;
+    min-height:0;
   }
+  .lightbox .stage[hidden], .lightbox .resource[hidden]{ display:none; }
   .lightbox .stage img{
     position:absolute; inset:0;
     width:100%; height:100%; object-fit:contain;
-    opacity:0; transition: opacity .35s ease;
+    opacity:0; z-index:1; pointer-events:none;
+    transition: opacity .35s ease;
   }
   .lightbox .stage img.on{ opacity:1; }
   .lightbox .meta{
@@ -398,7 +468,7 @@
     width:44px; height:44px; border-radius:50%;
     background:rgba(12,12,11,.6); border:1px solid var(--line-strong);
     color:var(--ink); display:flex; align-items:center; justify-content:center;
-    cursor:pointer; transition: all .2s ease;
+    cursor:pointer; z-index:2; transition: all .2s ease;
   }
   .lightbox .nav-btn:hover{ background:rgba(107,79,187,.18); border-color:rgba(107,79,187,.6); }
   .lightbox .prev{ left:14px; }
@@ -420,6 +490,34 @@
     transition: background .25s ease, transform .25s ease;
   }
   .lightbox .dots span.on{ background:var(--ink); transform:scale(1.4); }
+  .lightbox .resource{
+    border:1px solid var(--line); border-radius:8px; overflow:hidden;
+    background:#0a0a0d;
+  }
+  .lightbox .resource iframe{
+    display:block; width:100%; aspect-ratio:16 / 9; border:0;
+    background:#0a0a0d;
+  }
+  .lightbox .resource-fallback{
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding:13px 16px; border-top:1px solid var(--line);
+    color:var(--ink-dim); font-size:13px; line-height:1.45;
+  }
+  .lightbox .resource-fallback a{
+    color:var(--ink); font-family:var(--mono); font-size:10px;
+    letter-spacing:.09em; text-transform:uppercase; white-space:nowrap;
+  }
+  .lightbox .resource-fallback a:hover{ color:var(--aic-teal); }
+  .lightbox .empty-media{
+    min-height:270px; display:grid; place-items:center; padding:32px;
+    color:var(--ink-dim); font-size:15px; text-align:center;
+  }
+  @media (max-width:560px){
+    .lightbox{ padding:58px 14px 28px; }
+    .lightbox .close{ right:0; }
+    .lightbox .resource-fallback{ align-items:flex-start; flex-direction:column; }
+    .lightbox .meta .title{ font-size:19px; }
+  }
 
 </style>
 </head>
@@ -437,6 +535,9 @@
     <a class="brand" href="AI4ALL.html"><span class="brand-name">AIC</span></a>
     <div class="nav-links">
       <a href="AI4ALL.html">Home</a>
+      <a href="AI4ALL.html#what-we-do">What We Do</a>
+      <a href="events.html">Upcoming Events</a>
+      <a href="AI4ALL.html#join">Join</a>
       <a href="archive.html" class="current" aria-current="page">Workshop Archive</a>
     </div>
   </div>
@@ -444,12 +545,11 @@
 
 <header class="page">
   <div class="wrap">
-    <div class="eyebrow reveal">— Workshops · 2025 / 2026</div>
+    <div class="eyebrow reveal">— Source-verified archive · 2025 / 2026</div>
     <h1 class="title reveal">Workshop archive</h1>
     <p class="lede reveal">
-      A record of every AI4ALL session — domains explored, ideas debated, rooms full of
-      students who wanted to know what AI actually is and what it changes. Click any
-      workshop to flip through the photos.
+      Every documented AI4ALL session in one place — locally available event galleries,
+      workshop recordings, and the slides that supported the learning.
     </p>
 
     <div class="filter-bar reveal">
@@ -458,7 +558,7 @@
         <button class="chip" data-filter="fall25" aria-pressed="false">Fall '25</button>
         <button class="chip" data-filter="winter26" aria-pressed="false">Winter '26</button>
       </div>
-      <div class="count" id="count">10 workshops · 19 photographs</div>
+      <div class="count" id="count">11 events · 7 recordings · 4 slide decks</div>
     </div>
   </div>
 </header>
@@ -467,7 +567,7 @@
   <div class="wrap">
     <div class="term-head reveal">
       <div class="term-title">Fall <span class="year">2025</span></div>
-      <div class="term-meta">5 workshops · concluded</div>
+      <div class="term-meta">6 events · concluded</div>
     </div>
     <div class="grid" id="fall25-grid"></div>
   </div>
@@ -477,7 +577,7 @@
   <div class="wrap" style="margin-top:80px;">
     <div class="term-head reveal">
       <div class="term-title">Winter <span class="year">2026</span></div>
-      <div class="term-meta">5 workshops · concluded</div>
+      <div class="term-meta">5 events · concluded</div>
     </div>
     <div class="grid" id="winter26-grid"></div>
   </div>
@@ -496,6 +596,7 @@
     <button class="close" id="lb-close" aria-label="Close">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6l-12 12"/></svg>
     </button>
+    <div class="mode-buttons" id="lb-modes" role="tablist" aria-label="Workshop materials"></div>
     <div class="stage" id="lb-stage">
       <button class="nav-btn prev" id="lb-prev" aria-label="Previous">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 18l-6-6 6-6"/></svg>
@@ -504,6 +605,7 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 6l6 6-6 6"/></svg>
       </button>
     </div>
+    <div class="resource" id="lb-resource" hidden></div>
     <div class="meta">
       <div>
         <div class="title" id="lb-title">—</div>
@@ -515,6 +617,9 @@
 </div>
 
 <script>
+  // Legacy generic image assignments are retained below only as an inactive reference.
+  // The source-verified renderer begins after this block.
+  if(false){
   /* Workshop data */
   const fall25 = [
     { n:1,  title:"What is AI?",                                       tag:"Foundations", date:"Oct 7, 2025",  room:"CASL 1014",      blurb:"From symbols to neural networks — the lineage of the term \u201CAI\u201D and what people mean when they use it today.", photos:[1,2] },
@@ -713,6 +818,468 @@
     entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.06 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  }
+
+  /* Source-verified workshop archive */
+  // The original Google Sites gallery files require a signed campus session and cannot
+  // be reliably hotlinked. Retain the source manifest as a reference only; the site
+  // renders locally stored, event-verified media below.
+  const restrictedSourcePhotoSets = {
+    gbm: [
+      'https://sites.google.com/sites-images-rt/AGugd53OVdYcvht88KoYg_aJB2Ike_Kqzv8BF4CSQUj0vNpfgGrON72AyDRyQy1NfOz5r3WXwSO9emFCXRS8ZYWJ23BAh-gonfg_2yq8wNTPyX8iNwOGF4BaZRil-QFMSKcQtmc3DjIoSOnj3TswzkWWEgSJB-y6gkppLFEZWqY7l7jswnL_ZoS3wgAhf2rskD8=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd50stNdNOA9Pj62jSCJged_h11Q0_vRGtyqj2Md7DaDNbMyUEIkauqoyNJfq14Jms8TfE2IORhf_OQ5HFdWn4HFCxY5fBV8RDnu0eN_cEP3i6HCg4ke6pl-Jj7VfcgE_jym2cTTA7UYGFkowR4BFZQswMhthdczSOEDJ0AI_JrvFjOX81D41G6hniOzFbAa8-g=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd50fO1MuQKAuzlq_qEx_tiydYLqEn8ZfTUMmwJ_6iqWm4sOwQc2Lc4EDhDqjcGZNwBOo2tgvIZx95Zr3gq7A4TZO2aFp5iQ3qneAwXLM1Pf--bXxjPncLsxEsc3la0MTFdAKk4FiwOn7RjntiWady_ah0SRSJazyvMxodn3NrUvHJiA4Fbc79EO2G8MvH78=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd50o7jGA_EVbrUyOMsMIrinm0oNCubz8qV386bqZ-m4YAigbssiNSWU2RA5bAf4FNXCLaIx_QMl-Jy1jCCPIfVML2IhzJNsVj_73lQFp1TARUKkEuITXOuq0G428c5VIIZv_S8QUOa18XPQ3evzLmWdbyTWKgV_owUqhPeq95TaOPOZ9W1E6Np1yjuBQKcxsVw=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd526R0IvhxXgMx0VbHhvogZSK5_-p0XbIlFlSJ_2JyrFC6Ow5EJXETW0-b-G7G8mfhDAPD2V7KE3gA5kfXEpoEx78yAIlpA1i0htEqmBhgZ96Z21fgoC0NHlWJ3v7QisN5zND5u2ndwuVbpzy--iSDaOrUvSC9zQk1DQ6OI0MqAyBPL9Zngt6FOH62hrDLg=s2048',
+    ],
+    one: [
+      'https://sites.google.com/sites-images-rt/AGugd51JzJ1W6MFoAyzCZj-UFlLKXhdUS1_CZvx7qDexc55JuWXs03Lx3BrSeKsDStGYyqY51qKjz7j819pNUQb8uer6kHe71fgKVw3GLUCFmCf4JtnPvLeaimt5yW3Qx7ERpw4YWioNtklm8lSvm6JB462ZlD_BVgtfJlg_C7LPs-8dzA27HaSqOEdwd6BYdBw=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd53XhYUKyBCHRno0NMfbfQuXfuWGlaPlB2F50c1V0yGs3xCezSGdy7OUrde44DlcZMmExcgrGhMLa1yXV291E6nPsz9FMw8dbaaI8ECuMmy8kyJLDUniMLItl7P0rcVmVdqc820T_if9H3W-EddCoi2kb3LkAJabQbHATyv_RL3scbNqaYHOk-fOSquc7nNgKg=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd50r9gPuoF_1mkRxBfr9v7PcfGmKOb1UiSJn2V3406rSQTpN1Y3JntQ26oyqe5JfICqs3MWOBu10PXStuzvH7f7tbMvDlf5xqjGHpkJ9XDVe27JA3fQXRy0LsECJe_NYOwoeXGZ2E-PpnxUrG8_l6rVyAoiZYG1xGw1SOKhZUFb2GkgvhbBeSGzfGxLeM3--pw=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd531Bo1qFXub0RHfcq2_tnrXjI_Tdu1Qu--NlSZxcT0lKFsYkKayAYJPkm2P4P7Yh3So4oyreu4IkjOMXtG2B8MztSDkYP-ikgVEukO9WL0WujLOVWHgBpf0keBR28HZdb84zCzrNjbn2xfiG4VVZmdWA9W4Fgj0EgOqzilIM90l3YdrN4vNhXtt4bbphjE6UA=s2048',
+    ],
+    two: [
+      'https://sites.google.com/sites-images-rt/AGugd53eSA-2JLFykPJi_EFckSKQcKgY_d8X_E3bFGs-5A_spnv8JOSK2N8u-WCssLjf9J7euPjDcAln1M4zTwlMQZuwVyvBTC_sm-_av5sV3hQhkZYskvzVeL7kMGEWJtIUPY4nVJ8xWPGRbIKAfq7x72EC8wsqZxbS7eyFn1sc7E6EdDnVcBELebpz7kq8fPE1-Q=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd50m814hoIbdRPivdZCN1S0eSxYzeSsSfZZZlXVco3PNyFCQfwVeyV3MrdxurfZFJszHPndoEiCBzhLur5rsSxCB-7KKOp1ZEJ3kfcAJHVQgZ8VI2VAGx4WH2P4qyR8nSsrqkExqo40E03vnjKD20m-2bq9bWTuqOdowavPPhLg2IsxyrBjM9T5U9iJ2NvdI4A=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd51OvGgMDD2hEKoJmhhmacvHz8933G74SFAgV296kkjUKPURmFv1LPEQrnE2nZDkujlH9E7VxVpb0TPl_LUFnQ7K1kTw9RmJqE7-A5dMPt4hi8H-SrnRZR92x1PfkFlazqY73g88VnBNH1Dw9754cswtLBWCuIV3lZZgD-72sHXM-yZIskAN9W8EmVmWp9-tnA=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd52jv5AlaR12p694wJUQ7fkwOs9jkNplJvqVvSjmEB1ES75fh-maOUNbOQ7J3ShPjvRAD3TcOr03Zbh_myKWzEjQHJ-ICgC1pLe_WN1Gm6ydut7U5Ji6g3qL_bHAP0IxYaszabok8ac_q7oGj3JmDTqwTU7O5aQK8j-2P5H5ftpWbTaUyHU7IU7E4NmjWLzb4A=s2048',
+    ],
+    three: [
+      'https://sites.google.com/sites-images-rt/AGugd53sd1i929vTy4WpuROrrMWrbRSE8WavanMk774szzT37-J2gLyuzWQl9V6c7sLiWSMLjnDnePlv6n2JhLh-_0BJRdvANREjx62n75FiD6ntFgSeCOB_epgUMEe_bzmr8ojZWT4xRxOXx6Ft0rsCEnAgHGlJx4I0aNq9LgD9iy8q7GmEIaSY-KK-7A2KSKmLJQ=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd53BeK1GCu8JREC9rnhzgp7Eb1FptGpGz4rqT329YMeFRW8AMvAiZ4oMNOkk_8ihmqQclfg9MnrE4VL8yuFz_JAssLJHIJZKxmA9HwoFlGK6sNhcveQTAeMOr3O9i7bDUuWObbK2-P67whSLXbtjRCQcKiyGaPPZAf7bBK6LX5w8FRhv41sZsdlPRijLN5I=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd539XApWQqJhB8zwTsy8yOQ14lVFxDevaShi0Y0-Av60o2X8QQEwovnAjW6Vn75_ccUvv5XU6XKMjmXLtwiO8Rckh7qz01reTeMGGG5Q7b36xiXgNHkV1ndIv-dzKLgdLxI-UlPC3JT4Masx3T-7knFGV0tmHfIwbKa9Xhjlq-wh17Yti9eL0PqRfIhp1Ht08g=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd51n3WG_F2VeBvctx67x_M8aGdWr-0D1VUmi5Le3i3u58cfSQB-GId4MlQ5rLwVsvifh_gMwNGRvIy67DDIycm4B39cB4S48rArcGARKDHLrUKeMwIjjcVlTGpQ4n4YC01O6rhyiH456yNfKUgC0B35y6tDDvz6t4wR_pc0VYbiz26uVgjhJ2n0d0wLpI1GXpg=s2048',
+    ],
+    four: [
+      'https://sites.google.com/sites-images-rt/AGugd51uEiVgeDYlFo_LBtARSVVX7skssqD8-G96k0WKaQpe9M_D60pH5VjKOFvYjGarFMuFeH4YYlEye-lWkSofgKMteyOmreAc4EyZPz6WC9ppgkSA4F4enNhKbkOashg12Xk5tB1HxMldzvPav4-OB0sw4n1tCu3Ye5f-s7MXGn_9osYbPcCddcyKZtjSU1pnsQ=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd519y4x0Lc_OMD7GrYroaof3JUMic6vbfHjlr3g9kh7YZ79jukdAi2vrl-hftmmBa2Qe_gTxKbZGdnlhYy4MG-H7s-EBJbK4U5psJPl422B8GqLkjQPY35okS9Jt_XcNk_mpJ3zCrHnP4yVhy6YbH9pER-cvF1Fxj0PxfyLzjkP8jRE2ZjEAsggrRs2YmqSMYw=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd516aDlbIZQTu_ElYWbUvMj_aB_f2nN4En1RIO_czlVtGC2I6GsvtsjOUcL2ThN3OdtvDv72qyzSvGOiGf1Lpp1-CxPSj0gw4zhB4Zbtv5T6xI32pIH21GMZKcCQ0dWYVwmwtDEF9ONiUuFYCaOCPVdpwIQ3bOow0WKb0sghVj08oK7pDZP3yqQHeEjrAaXsPA=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd51K4FeGEM8mEfzQ0pFK53walgzYSeYewXBZK2fHlzJ2pcZUZ2SkyyrRdYX2RR1Ap_UVyPZL4XlLVKK2f455wDeucDsflIcGnuLsQYkWFNTElU9nDgCITYBL-5R33xD6bxp1P20PNn3OiP_F1Aa7SHFIjPlnvMwz8Olh2t4OR01UubGmS3G2cDIohn_Ci7Z4gg=s2048',
+    ],
+    five: [
+      'https://sites.google.com/sites-images-rt/AGugd52zknGJ-SxNtRsj6eUo4O1XUsNlGMjH9aSIIBc-yM7xW5_MPHk9cYJgkwNLMH3eqeL06U1KLShWpQytyKzxN25soZsJgozmfFnw7CCA86dPFfm_UZOmnDDqUXnwfrq7fQHF9WzvVnrHJCN3PCR2_pEFJJoE3A5LZGiMy_HwgJOU_V9QGNABHqBj3Inc=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd50qd7IbhvliBrX3gHqRX1vQ-pZtG74R581QRepW7jCOiljlBISRBvg8GSDODYNEG5fYHLOxNVXPQcpmwoa-_OgCAuT4D0a75xJ9Q731KaBwEHLTUZz-zk32d5qnDqPVYuK0qVTr3TuPhndNPFmfYvfFIsjYVyl8TLDr6pLrcXr34evnlyqNCAtuoVLjfo5zUw=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd53t0K2p36Dvio099IZAFTDrNsRTMkGdpet7kfSAyjMbGb7TCXv7mfu4ZtDK5kZJLlb1EszQrd_xvkLn6Ut-YdyZ-4bBJKTeDd8iBWx0S1R03Fh60vny5ObRlO-HtRm-RQ5a8yBc5SY4x-8Ue0B8WrMOmmEPB48qU44KuGsht7wDOEAbzGlt5pCWu42ff7Q=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd51iy7ffN1rtDZIIzA-XIt45niSsGk8d9svg4Rjtpg8ZGUslWfU5h73t3TEEp7GFv-_bnBMwDdm1Zy83eZ8_eqbDZKpnYfnt73YES3Fd1j63kQgm6bKFla7M_4R8axTPkMIjPhP1UACwE-NcWqF70R-E_t33spl7WDAIZK9rnaCgQfiPLSvv8F3rT_1AFFE0nQ=s2048',
+    ],
+    six: [
+      'https://sites.google.com/sites-images-rt/AGugd53SUQcdoVuMklYBDTJ_nDOmOSnto5t1Dye-9k6CBiV-6DK8W5qn9g-ZsVcA3PXpTN3gB-31w5SY9RWGgEHJY5EQXQMSN1G1EW4iYbs_P2cWJ7T1pXRkFtCyIFR4ZlES6BfdtGd0FnGzToMYOM1WStykn4UwYUteFjEFBnztSlSSHhSyPbsHrwGtwwwhbIn4HA=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd51sHfaxJK1OsVNHgeVEcd6KqgyhCHuvPLhJItoy-orIHv9ek0xzmElQRl6NXpxsVLk6HByq0C87-MT3C8FdroM9o0aIDVROZFzCLYkiP_Oha5_GIVTopzSC3ZKEWYOy7xJ12PUKl-QYKyOLCh-Tn-dqUpaWLSNZCIBmnfNCHoY1c6PeYsZewR9oG1icuUgGkw=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd52hpXdQSZ9TuWZD-bHJy59EropvYvqzf7ohIsEEBnuL08ZCiQJKGDetIpsu3X2baehjKj8g4T9ZPQjpJzjlYf67DG6BGFg7Oj0gA1kCdy2djDPn7bLZnyJTUohJbEtVqSR8piTaph1spI4aZvjyMmLcElZmuBnvoNHuZ7ACOpjQIq3qK1R4lDDOLWW1WD9HwQ=s2048',
+    ],
+    seven: [
+      'https://sites.google.com/sites-images-rt/AGugd51PhO7Jgy42DpiLPqsxDzZl56mj5lmGkGIpq4zvraVpd_2Vh6tu8mwq897x3BhAO_PHAFXUXIykEbM7rBnb2imFFJQ2KDq5k1-OxaUuGg2GZeuQRkzFiGojXWi07Ktl77ehwxEEyHCzFwojzslnfUNOaWVb_L4WTrJNhNiOZCW8yIwdT5gITJ_QNQN19MI=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd51_0TQGGkyvv0oUQNyzfk0b6Ky4rTPSgZgDADWo3tBWOfVQbk9nkmjzLkynaLStaG8TQEak_c7tXM4XRYQOkQUba2V0zz5PlxTfbXsLdVW-y0cfNwy_gYkbzRXsnF1rPZ2_189LensoZ_pwliXlfB1bcRQbuBGy9KXPy_RV13YOusYxL3tw91Tp91IhJJmsHg=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd53RpDurHQi_bY1nH7V-8b8sHUFyoto9ZD8_XERoIYLLmmONDh8iFp2YgwQmDz7uQw_u81Adv-BahKHYV9zPXKP0D72SDTFyilDxc4G4sI1Wm_GzOdpEbS3gGCXazOqAVpPB8Fg4r6gbkOG3C8xqEc7wfec3CV8mzLF_0fa0iSB-KnqPdaqTOMlWqpMmnktnMA=s2048',
+    ],
+    eight: [
+      'https://sites.google.com/sites-images-rt/AGugd53Iw8VsBWK1vCZVrnNRDU029JhvhRfHi2bH1VkCqkq8aquFG0sybyHemuyolVxCfrtPB1G8dpQZQK4gfkjJr2Rb3uRYd0oSYYqu5WfrDeZ4QKdu9kyrR92G6xDI29NR9TJg9gqvT9BSsbB8AeU6DdeXYLPxmPHULtfsAmh79Eo5Rp3NEo7AuZcxl7E7gtc2aQ=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd52PAPCbniq3VyBA_4uKSnFqtiEZGrsMxJ-Qk2hTkDXEB5h3m_yNmSNM1JrejC117Cb194VDInAgwSxQt09gL1-5EfsS4kMZjS1DNsS1FBc-zuJeIfVJQc00mJK9c-tSYe6bVTtbAWV3nQ6QXVOpxsU5OIiXIrS7x80p3EsBWjNhzLhqeq3-yudaC5vHp7ddxw=s2048',
+      'https://sites.google.com/sites-images-rt/AGugd52psi4hYlR-lXZlSYhu5Lco4WPme9r_GkFcYYCY_RiosJgv5nJt1blTY70b3u_6LzjbkcJdg5AegscKPggPiq3jkAZTPIz-4KwxiX_IcfoC-f9p43-RQiOisMzCH2H_7t9vkphVolUbNIylFncZL5zAN6C3LH-UWFTDnVvpwGObzF-UaKuKpr1sift1E9f1pw=s2048',
+    ],
+  };
+
+  const photoSets = {
+    gbm:['images/aic-fall-gbm.jpg'],
+    nine:[
+      'images/w05.jpg', 'images/w06.jpg', 'images/w07.jpg', 'images/w08.jpg', 'images/w09.jpg',
+      'images/w10.jpg', 'images/w11.jpg', 'images/w12.jpg', 'images/w13.jpg', 'images/w14.jpg',
+      'images/w15.jpg', 'images/w16.jpg', 'images/w17.jpg', 'images/w18.jpg', 'images/w19.jpg',
+    ],
+  };
+
+  const workshops = [
+    {
+      id:'gbm', term:'fall25', marker:'AIC', tag:'Club event', date:'Sep 11, 2025',
+      title:'General Body Meeting — Intro to AI4ALL',
+      blurb:'At the Fall 2025 general body meeting, the team introduced AIC and the AI4ALL initiative to the broader campus community.',
+      gallery:photoSets.gbm,
+      slides:{
+        embed:'https://docs.google.com/presentation/d/1pi8CAWntvUIluuO_fzuEmB5_jCjnrpqGKM7tBvMHMeU/embed?authuser=0',
+        href:'https://docs.google.com/presentation/d/1pi8CAWntvUIluuO_fzuEmB5_jCjnrpqGKM7tBvMHMeU/present',
+        label:'View meeting slides',
+      },
+    },
+    {
+      id:'ai4all-01', term:'fall25', marker:'01', tag:'Foundations', date:'Oct 7, 2025', time:'5–6 PM', location:'CASL 1014',
+      title:'What is AI?',
+      blurb:'An introduction to what AI means, the difference between weak and strong AI, and examples across industries and domains.',
+      cover:'images/workshops/ai4all-01-recording.jpg', gallery:[],
+      video:{
+        embed:'https://www.youtube-nocookie.com/embed/Me8BRn-fEvU?rel=0',
+        href:'https://www.youtube.com/watch?v=Me8BRn-fEvU', label:'Watch on YouTube', provider:'youtube',
+      },
+    },
+    {
+      id:'ai4all-02', term:'fall25', marker:'02', tag:'Learning', date:'Oct 23, 2025', time:'3–4 PM', location:'CIS 239',
+      title:'AI in Education',
+      blurb:'Dr. Zheng Song, Richard Nelson, and Chineme (Derek) Uba connected generative AI, learning agents, FOCUS, and a NotebookLM demonstration.',
+      cover:'images/workshops/ai4all-02-slides.png', gallery:[],
+      slides:{
+        embed:'https://docs.google.com/presentation/d/1bXoiJ8KDLewts-9BXK5l5iEZYLvMiCcUYy_3xVUO9ow/embed?authuser=0',
+        href:'https://docs.google.com/presentation/d/1bXoiJ8KDLewts-9BXK5l5iEZYLvMiCcUYy_3xVUO9ow/present', label:'View workshop slides',
+      },
+    },
+    {
+      id:'ai4all-03', term:'fall25', marker:'03', tag:'Environment', date:'Nov 4, 2025', time:'4–5 PM', location:'Kochoff Hall C',
+      title:'AI in the Environment',
+      blurb:'Lauren Eaton from Friends of the Rouge and student teams shared conservation work plus AI projects for frog and bird identification.',
+      cover:'images/workshops/ai4all-03-slides.png', gallery:[],
+      slides:{
+        embed:'https://docs.google.com/presentation/d/1aUhqx98A4BpTlDmna69LB8N7UhgdkD2zwjc6CAMYEOs/embed?authuser=0',
+        href:'https://docs.google.com/presentation/d/1aUhqx98A4BpTlDmna69LB8N7UhgdkD2zwjc6CAMYEOs/present', label:'View workshop slides',
+      },
+    },
+    {
+      id:'ai4all-04', term:'fall25', marker:'04', tag:'Career', date:'Nov 18, 2025', time:'4–5 PM', location:'CASL 1041',
+      title:'AI in Career Readiness',
+      blurb:'Katie Dunn, CECS Director of Student Engagement for Career Success, shared practical ways to use AI tools in applications and resumes.',
+      cover:'images/workshops/ai4all-04-slides.png', gallery:[],
+      slides:{
+        embed:'https://docs.google.com/presentation/d/1AWo5YM6KuqYfSdYnHcoQ1U7Z2hKgQyP8ew0PkKmvsdo/embed?authuser=0',
+        href:'https://docs.google.com/presentation/d/1AWo5YM6KuqYfSdYnHcoQ1U7Z2hKgQyP8ew0PkKmvsdo/present', label:'View workshop slides',
+      },
+    },
+    {
+      id:'ai4all-05', term:'fall25', marker:'05', tag:'Trustworthy AI', date:'Dec 4, 2025', time:'5–6 PM', location:'ELB 1321',
+      title:'What Does It Mean for AI to Be Trustworthy?',
+      blurb:'Dr. Birhanu Eshete explored trustworthy AI through security, privacy, ethics, transparency, and the decisions that make AI systems reliable.',
+      cover:'images/workshops/ai4all-05-recording.png', gallery:[],
+      video:{
+        embed:'https://mediasite-cecs.umd.umich.edu/Mediasite/Play/891553bbaf3f4f9489584d9dd70b589a1d',
+        href:'https://mediasite-cecs.umd.umich.edu/Mediasite/Play/891553bbaf3f4f9489584d9dd70b589a1d', label:'Open in MediaSite', provider:'mediasite',
+      },
+    },
+    {
+      id:'ai4all-06', term:'winter26', marker:'06', tag:'Industry', date:'Feb 3, 2026', time:'3:30–4:30 PM', location:'ELB 1321',
+      title:'AI in the Automotive Industry',
+      blurb:'Yao Ge of Ford’s AI Advancement Center traced AI across software, vehicle engineering, customer assistance, and data science through a trustworthy-AI lens.',
+      cover:'images/workshops/ai4all-06-cover.jpg', gallery:[],
+      video:{
+        embed:'https://mediasite-cecs.umd.umich.edu/Mediasite/Play/3d6bfe86ac7842b9a68ce9aeee9680f51d',
+        href:'https://mediasite-cecs.umd.umich.edu/Mediasite/Play/3d6bfe86ac7842b9a68ce9aeee9680f51d', label:'Open in MediaSite', provider:'mediasite',
+      },
+    },
+    {
+      id:'ai4all-07', term:'winter26', marker:'07', tag:'Corporate', date:'Feb 17, 2026', time:'3:30–4:30 PM', location:'ELB 1321',
+      title:'AI in Corporate',
+      blurb:'Eejoy Lim, a Software Development Engineer at Amazon, explored software engineering for warehouse automation, cloud enablement, and productivity at scale.',
+      cover:'images/workshops/ai4all-07-cover.jpg', gallery:[],
+      video:{
+        embed:'https://mediasite-cecs.umd.umich.edu/Mediasite/Play/37870279d12a4e4faae9fa4429083dd31d',
+        href:'https://mediasite-cecs.umd.umich.edu/Mediasite/Play/37870279d12a4e4faae9fa4429083dd31d', label:'Open in MediaSite', provider:'mediasite',
+      },
+    },
+    {
+      id:'ai4all-08', term:'winter26', marker:'08', tag:'Public health', date:'Mar 24, 2026', time:'3:30–4:30 PM', location:'ELB 1321',
+      title:'AI in Public Health',
+      blurb:'Haya Hatem examined AI in public health: data-informed decision making, community use cases, trade-offs, environmental impact, and future policy.',
+      cover:'images/workshops/ai4all-08-recording.jpg', gallery:[],
+      video:{
+        embed:'https://mediasite-cecs.umd.umich.edu/Mediasite/Play/53c26a4e952a4c2497c6f499fbf1ed881d',
+        href:'https://mediasite-cecs.umd.umich.edu/Mediasite/Play/53c26a4e952a4c2497c6f499fbf1ed881d', label:'Open in MediaSite', provider:'mediasite',
+      },
+    },
+    {
+      id:'ai4all-09', term:'winter26', marker:'09', tag:'Healthcare', date:'Apr 7, 2026', time:'3:30–4:30 PM', location:'ELB 1321',
+      title:'AI in Healthcare',
+      blurb:'Bill Fandrich of Blue Cross Blue Shield of Michigan discussed AI in large-scale healthcare systems, data-driven decisions, benefits, risks, and ethics.',
+      cover:'images/w05.jpg', gallery:photoSets.nine,
+      video:{
+        embed:'https://mediasite-cecs.umd.umich.edu/Mediasite/Play/d975b55403e747069ff3b2c3d9bf95be1d',
+        href:'https://mediasite-cecs.umd.umich.edu/Mediasite/Play/d975b55403e747069ff3b2c3d9bf95be1d', label:'Open in MediaSite', provider:'mediasite',
+      },
+    },
+    {
+      id:'ai4all-10', term:'winter26', marker:'10', tag:'Accounting', date:'Apr 16, 2026', time:'3:30–4:30 PM', location:'ELB 1321',
+      title:'AI for Accounting and Auditing',
+      blurb:'Through financial reports and a Brazilian government payroll-auditing example, this session showed how LLMs can extract, interpret, and verify unstructured financial data.',
+      cover:'images/workshops/ai4all-10-recording.jpg', gallery:[],
+      video:{
+        embed:'https://mediasite-cecs.umd.umich.edu/Mediasite/Play/03592f1cc9404ce4af437a5c69e792051d',
+        href:'https://mediasite-cecs.umd.umich.edu/Mediasite/Play/03592f1cc9404ce4af437a5c69e792051d', label:'Open in MediaSite', provider:'mediasite',
+      },
+    },
+  ];
+
+  const workshopById = new Map(workshops.map(workshop => [workshop.id, workshop]));
+  const formattedCount = document.getElementById('count');
+  const recordingCount = workshops.filter(workshop => workshop.video).length;
+  const slideCount = workshops.filter(workshop => workshop.slides).length;
+  formattedCount.textContent = `${workshops.length} events · ${recordingCount} recordings · ${slideCount} slide decks`;
+
+  const mediaIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/></svg>';
+  const playIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 5.5v13l10-6.5-10-6.5Z"/></svg>';
+
+  function esc(value){
+    return String(value).replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+  }
+  function workshopMeta(workshop){
+    return [workshop.date, workshop.time, workshop.location].filter(Boolean).join(' · ');
+  }
+  function materialSummary(workshop){
+    const parts = [];
+    if(workshop.gallery.length) parts.push(`${workshop.gallery.length} photo${workshop.gallery.length === 1 ? '' : 's'}`);
+    if(workshop.video) parts.push('recording');
+    if(workshop.slides) parts.push('slides');
+    return parts.join(' · ');
+  }
+  function cardHTML(workshop){
+    const sources = workshop.gallery.length ? workshop.gallery : [workshop.cover].filter(Boolean);
+    const images = sources.map((source, index) =>
+      `<div class="img${workshop.gallery.length ? '' : ' poster'}${index === 0 ? ' on' : ''}" style="background-image:url(&quot;${esc(source)}&quot;)"></div>`
+    ).join('');
+    const resourceType = workshop.video ? 'video' : workshop.slides ? 'slides' : 'archive';
+    const resourceEyebrow = workshop.video ? 'Workshop recording' : workshop.slides ? 'Workshop slides' : 'Archive record';
+    const resourceTitle = workshop.video ? 'Watch the recording' : workshop.slides ? 'Explore the slide deck' : 'Event materials';
+    const visual = images || `
+      <div class="resource-cover resource-cover--${resourceType}" aria-hidden="true">
+        <span class="resource-cover__eyebrow">${resourceEyebrow}</span>
+        <span class="resource-cover__title">${resourceTitle}</span>
+      </div>`;
+    const resourceBadge = workshop.gallery.length
+      ? `${mediaIcon}<span>${workshop.gallery.length} photo${workshop.gallery.length === 1 ? '' : 's'}</span>`
+      : workshop.video
+        ? `${playIcon}<span>Recording</span>`
+        : `${mediaIcon}<span>Slides</span>`;
+    return `
+      <article class="card reveal" data-term="${workshop.term}" data-id="${workshop.id}">
+        <div class="media${sources.length ? '' : ` resource-media resource-media--${resourceType}`}">
+          ${visual}
+          <div class="badge"><span class="num">${esc(workshop.marker)}</span><span class="tag">${esc(workshop.tag)}</span></div>
+          <div class="photos">${resourceBadge}</div>
+        </div>
+        <div class="body">
+          <div class="when">${esc([workshop.date, workshop.time].filter(Boolean).join(' · '))}</div>
+          <h3>${esc(workshop.title)}</h3>
+          ${workshop.location ? `<div class="where">${esc(workshop.location)}</div>` : ''}
+          <div class="blurb">${esc(workshop.blurb)}</div>
+        </div>
+      </article>
+    `;
+  }
+
+  for(const term of ['fall25', 'winter26']){
+    document.getElementById(`${term}-grid`).innerHTML = workshops
+      .filter(workshop => workshop.term === term)
+      .map(cardHTML)
+      .join('');
+  }
+
+  const cards = [...document.querySelectorAll('.card')];
+  cards.forEach(card => {
+    const workshop = workshopById.get(card.dataset.id);
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', `Open ${workshop.title}: ${materialSummary(workshop)}`);
+    card.addEventListener('keydown', event => {
+      if(event.key === 'Enter' || event.key === ' '){
+        event.preventDefault();
+        card.click();
+      }
+    });
+  });
+
+  cards.forEach(card => {
+    const images = card.querySelectorAll('.media .img');
+    if(images.length < 2) return;
+    let interval = null;
+    let index = 0;
+    card.addEventListener('mouseenter', () => {
+      interval = setInterval(() => {
+        images[index].classList.remove('on');
+        index = (index + 1) % images.length;
+        images[index].classList.add('on');
+      }, 1500);
+    });
+    card.addEventListener('mouseleave', () => {
+      clearInterval(interval);
+      images.forEach((image, imageIndex) => image.classList.toggle('on', imageIndex === 0));
+      index = 0;
+    });
+  });
+
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(item => item.setAttribute('aria-pressed', item === chip ? 'true' : 'false'));
+      const filter = chip.dataset.filter;
+      document.querySelectorAll('.term-section').forEach(section => {
+        section.classList.toggle('hidden', !(filter === 'all' || filter === section.dataset.term));
+      });
+    });
+  });
+
+  const lb = document.getElementById('lightbox');
+  const lbStage = document.getElementById('lb-stage');
+  const lbResource = document.getElementById('lb-resource');
+  const lbModes = document.getElementById('lb-modes');
+  const lbTitle = document.getElementById('lb-title');
+  const lbSub = document.getElementById('lb-sub');
+  const lbDots = document.getElementById('lb-dots');
+  const lbClose = document.getElementById('lb-close');
+  const lbPrev = document.getElementById('lb-prev');
+  const lbNext = document.getElementById('lb-next');
+  const lbPhotoControls = [lbPrev, lbNext];
+  let currentWorkshop = null;
+  let currentPhotos = [];
+  let currentPhotoIndex = 0;
+  let activeMode = '';
+  let lastFocusedCard = null;
+  const lightboxImages = [];
+
+  function setPhotoIndex(nextIndex){
+    if(!lightboxImages.length) return;
+    lightboxImages[currentPhotoIndex].classList.remove('on');
+    lbDots.children[currentPhotoIndex]?.classList.remove('on');
+    currentPhotoIndex = (nextIndex + lightboxImages.length) % lightboxImages.length;
+    lightboxImages[currentPhotoIndex].classList.add('on');
+    lbDots.children[currentPhotoIndex]?.classList.add('on');
+  }
+  function buildPhotos(workshop){
+    [...lbStage.querySelectorAll('img')].forEach(image => image.remove());
+    lightboxImages.length = 0;
+    currentPhotos = workshop.gallery.slice();
+    currentPhotoIndex = 0;
+    currentPhotos.forEach((source, index) => {
+      const image = document.createElement('img');
+      image.src = source;
+      image.alt = `${workshop.title} — photo ${index + 1}`;
+      if(index === 0) image.classList.add('on');
+      lbStage.appendChild(image);
+      lightboxImages.push(image);
+    });
+    lbDots.innerHTML = currentPhotos.map((_, index) => `<span class="${index === 0 ? 'on' : ''}"></span>`).join('');
+  }
+  function selectableModes(workshop){
+    return [
+      workshop.gallery.length ? {id:'photos', label:`Photos (${workshop.gallery.length})`} : null,
+      workshop.video ? {id:'video', label:'Watch recording'} : null,
+      workshop.slides ? {id:'slides', label:'View slides'} : null,
+    ].filter(Boolean);
+  }
+  function buildModes(workshop){
+    lbModes.replaceChildren();
+    selectableModes(workshop).forEach(mode => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'mode-button';
+      button.dataset.mode = mode.id;
+      button.setAttribute('role', 'tab');
+      button.setAttribute('aria-selected', 'false');
+      button.textContent = mode.label;
+      button.addEventListener('click', () => setMode(mode.id));
+      lbModes.appendChild(button);
+    });
+  }
+  function buildResource(resource, type){
+    lbResource.replaceChildren();
+    const frame = document.createElement('iframe');
+    frame.title = `${currentWorkshop.title} ${type === 'video' ? 'recording' : 'slides'}`;
+    // The resource is inserted only when its tab is selected, so eager loading here
+    // keeps the in-page player ready instead of leaving a blank lazy iframe in a modal.
+    frame.loading = 'eager';
+    // YouTube requires an origin referrer for embedded playback; MediaSite uses its
+    // own strict cross-origin policy.
+    frame.referrerPolicy = resource.provider === 'youtube' ? 'origin' : 'strict-origin-when-cross-origin';
+    frame.allowFullscreen = true;
+    frame.allow = resource.provider === 'youtube'
+      ? 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+      : 'autoplay; fullscreen; picture-in-picture';
+    frame.src = resource.embed;
+    const fallback = document.createElement('div');
+    fallback.className = 'resource-fallback';
+    const message = document.createElement('span');
+    message.textContent = type === 'video' ? 'If the player needs a new tab, use the source link.' : 'If the slides need a new tab, use the source link.';
+    const link = document.createElement('a');
+    link.href = resource.href;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.textContent = resource.label;
+    fallback.append(message, link);
+    lbResource.append(frame, fallback);
+  }
+  function setMode(mode){
+    if(!currentWorkshop) return;
+    activeMode = mode;
+    [...lbModes.querySelectorAll('.mode-button')].forEach(button => button.setAttribute('aria-selected', button.dataset.mode === mode ? 'true' : 'false'));
+    const photoMode = mode === 'photos';
+    lbStage.hidden = !photoMode;
+    lbResource.hidden = photoMode;
+    lbDots.hidden = !photoMode || currentPhotos.length < 2;
+    const hasPhotoNavigation = photoMode && currentPhotos.length > 1;
+    lbPhotoControls.forEach(control => { control.hidden = !hasPhotoNavigation; });
+    if(photoMode){
+      lbResource.replaceChildren();
+      return;
+    }
+    buildResource(mode === 'video' ? currentWorkshop.video : currentWorkshop.slides, mode);
+  }
+  function buildLightbox(workshop){
+    currentWorkshop = workshop;
+    lbTitle.textContent = `${workshop.marker} · ${workshop.title}`;
+    lbSub.textContent = workshopMeta(workshop);
+    buildPhotos(workshop);
+    buildModes(workshop);
+    const defaultMode = workshop.gallery.length ? 'photos' : workshop.video ? 'video' : 'slides';
+    setMode(defaultMode);
+  }
+  function openLightbox(){
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    lbClose.focus();
+  }
+  function closeLightbox(){
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    lbResource.replaceChildren();
+    lastFocusedCard?.focus();
+  }
+  function currentControls(){
+    const materialControls = activeMode === 'photos'
+      ? lbPhotoControls
+      : [...lbResource.querySelectorAll('iframe, a')];
+    return [lbClose, ...lbModes.querySelectorAll('.mode-button'), ...materialControls]
+      .filter(control => !control.hidden && !control.disabled);
+  }
+
+  lbClose.addEventListener('click', closeLightbox);
+  lbPrev.addEventListener('click', () => setPhotoIndex(currentPhotoIndex - 1));
+  lbNext.addEventListener('click', () => setPhotoIndex(currentPhotoIndex + 1));
+  lb.addEventListener('click', event => { if(event.target === lb) closeLightbox(); });
+  document.addEventListener('keydown', event => {
+    if(!lb.classList.contains('open')) return;
+    if(event.key === 'Escape') closeLightbox();
+    if(activeMode === 'photos' && event.key === 'ArrowLeft') setPhotoIndex(currentPhotoIndex - 1);
+    if(activeMode === 'photos' && event.key === 'ArrowRight') setPhotoIndex(currentPhotoIndex + 1);
+    if(event.key === 'Tab'){
+      const controls = currentControls();
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if(event.shiftKey && document.activeElement === first){ event.preventDefault(); last.focus(); }
+      else if(!event.shiftKey && document.activeElement === last){ event.preventDefault(); first.focus(); }
+    }
+  });
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      const workshop = workshopById.get(card.dataset.id);
+      if(!workshop) return;
+      lastFocusedCard = card;
+      buildLightbox(workshop);
+      openLightbox();
+    });
+  });
+
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.06});
+  document.querySelectorAll('.reveal').forEach(element => revealObserver.observe(element));
 </script>
 
 </body>

@@ -779,13 +779,59 @@
   .form-frame{
     max-width:748px; margin:0 auto;
     border-radius:22px;
-    padding:2px;
-    background:linear-gradient(150deg, rgba(32,178,170,.55), rgba(107,79,187,.55));
-    box-shadow: 0 28px 90px -28px rgba(0,0,0,.72);
+    padding:4px;
+    position:relative;
+    isolation:isolate;
+    overflow:hidden;
+    background:#8d949b;
+    box-shadow:0 18px 48px -30px rgba(32,35,41,.28),0 0 0 1px rgba(39,45,52,.18);
+  }
+  .form-frame::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    pointer-events:none;
+    background:conic-gradient(
+      from var(--form-metal-angle),
+      #252a31 0deg,
+      #8b939c 26deg,
+      #f7fafb 48deg,
+      #555d66 77deg,
+      #1c2229 108deg,
+      #c2c9cf 139deg,
+      #fff 160deg,
+      #565e68 191deg,
+      #222830 218deg,
+      #aeb7bf 253deg,
+      #f8fbfc 271deg,
+      #4a535c 309deg,
+      #252a31 360deg
+    );
+    animation:form-metal-flow 9s linear infinite;
+  }
+  .form-frame::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border:1px solid rgba(255,255,255,.55);
+    border-radius:inherit;
+    pointer-events:none;
+    z-index:2;
+  }
+  @property --form-metal-angle{
+    syntax:"<angle>";
+    inherits:false;
+    initial-value:0deg;
+  }
+  @keyframes form-metal-flow{
+    to{ --form-metal-angle:360deg; }
   }
   .form-frame .inner{
+    position:relative;
+    z-index:1;
     background:#0c0d11;
-    border-radius:20px;
+    border-radius:18px;
     padding:10px;
   }
   .form-frame iframe{
@@ -900,7 +946,6 @@
   .event .title .tag{ color:#6545a8; }
   .event:hover .go{ color:#6545a8; box-shadow:none; }
   section.join{ background:linear-gradient(180deg,#fff,#f7f8f9); }
-  .form-frame{ box-shadow:0 18px 48px -30px rgba(32,35,41,.28); }
   .form-frame .inner{ background:#fff; }
   footer{ background:#fff !important; color:var(--ink-faint); }
 </style>

@@ -1,0 +1,83 @@
+/* Keep the navigation words in view without pinning a full-width header. */
+nav.top{
+  position:relative;
+  top:auto;
+  z-index:100;
+  min-height:50px;
+  padding:28px 0 0;
+  background:none;
+  border:0;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  pointer-events:none;
+}
+nav.top .brand{ pointer-events:auto; }
+nav.top .nav-links{
+  --nav-edge:max(32px, calc((100vw - 1240px)/2 + 32px));
+  position:fixed;
+  top:28px;
+  left:50%;
+  right:auto;
+  z-index:110;
+  width:max-content;
+  max-width:calc(100vw - 64px);
+  transform:translateX(calc(50vw - var(--nav-edge) - 100%));
+  transition:top .2s ease-out, transform .2s cubic-bezier(.2,.8,.2,1);
+  will-change:transform;
+  pointer-events:auto;
+}
+nav.top .nav-links.nav-moving{ animation:nav-motion-blur .2s ease-out; }
+@keyframes nav-motion-blur{
+  0%,100%{ filter:blur(0); }
+  48%{ filter:blur(1.7px); }
+}
+body.nav-scrolled nav.top .nav-links{
+  top:18px;
+  transform:translateX(-50%);
+}
+
+/* The photo-led pages open with white links; lower white sections use dark links. */
+body.photo-hero nav.top .brand-name,
+body.photo-hero nav.top .nav-links a,
+body.photo-hero nav.top .nav-links a.current,
+body.photo-hero nav.top .nav-links a:hover{
+  color:#fff;
+  text-shadow:0 1px 6px rgba(0,0,0,.8),0 0 18px rgba(0,0,0,.55);
+}
+body.photo-hero.nav-on-light nav.top .nav-links a,
+body.photo-hero.nav-on-light nav.top .nav-links a.current,
+body.photo-hero.nav-on-light nav.top .nav-links a:hover{
+  color:var(--ink);
+  text-shadow:0 1px 3px #fff,0 0 10px #fff;
+}
+body:not(.photo-hero) nav.top .nav-links a{
+  text-shadow:0 1px 3px #fff,0 0 10px #fff;
+}
+nav.top .nav-links a:focus-visible{
+  outline:2px solid var(--aic-teal);
+  outline-offset:5px;
+}
+
+@media (max-width:800px){
+  nav.top{ min-height:78px; padding:20px 0 0; }
+  nav.top .nav-links{
+    --nav-edge:22px;
+    top:20px;
+    max-width:calc(100vw - 108px);
+    justify-content:flex-end;
+  }
+  body.nav-scrolled nav.top .nav-links{ top:12px; justify-content:center; }
+}
+@media (max-width:460px){
+  nav.top{ min-height:112px; padding:14px 0 0; }
+  nav.top .nav-links{
+    top:44px;
+    max-width:calc(100vw - 44px);
+    justify-content:center;
+  }
+  body.nav-scrolled nav.top .nav-links{ top:12px; }
+}
+@media (prefers-reduced-motion:reduce){
+  nav.top .nav-links{ transition:none; }
+  nav.top .nav-links.nav-moving{ animation:none; }
+}

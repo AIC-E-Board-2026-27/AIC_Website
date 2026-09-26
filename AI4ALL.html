@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="description" content="The Artificial Intelligence Club at the University of Michigan-Dearborn: hands-on workshops, AI learning, and community for every major." />
-<meta name="theme-color" content="#0C0C0B" />
+<meta name="theme-color" content="#FFFFFF" />
 <title>AIC — Artificial Intelligence Club</title>
 <script>document.documentElement.classList.add('js');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -15,21 +15,21 @@
   :root{
     --aic-teal:   #20B2AA;
     --aic-purple: #6B4FBB;
-    --aic-off:    #EDEDE9;
-    --aic-obsidian:#0C0C0B;
-    --aic-chalk:  #F2F2F0;
-    --aic-ash:    #3A3A38;
+    --aic-off:    #202329;
+    --aic-obsidian:#FFFFFF;
+    --aic-chalk:  #FFFFFF;
+    --aic-ash:    #F2F3F4;
 
     --ink:        var(--aic-off);
-    --ink-dim:    #b6b4ad;
-    --ink-faint:  #85827a;
-    --line:       rgba(237,237,233,.10);
-    --line-strong:rgba(237,237,233,.22);
+    --ink-dim:    #505861;
+    --ink-faint:  #727b85;
+    --line:       rgba(32,35,41,.12);
+    --line-strong:rgba(32,35,41,.24);
 
-    --serif:"IBM Plex Serif", "Iowan Old Style", Georgia, serif;
-    --roman:"Newsreader", "Times New Roman", Times, serif;
-    --sans:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
-    --mono:"IBM Plex Mono", ui-monospace, "JetBrains Mono", Menlo, monospace;
+    --serif:"Times New Roman", Times, serif;
+    --roman:"Times New Roman", Times, serif;
+    --sans:"Times New Roman", Times, serif;
+    --mono:"Times New Roman", Times, serif;
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
@@ -39,7 +39,7 @@
     font-family:var(--sans);
     -webkit-font-smoothing:antialiased;
   }
-  html{ background:var(--aic-obsidian); scroll-behavior:smooth; }
+  html{ background:var(--aic-obsidian); scroll-behavior:smooth; scroll-padding-top:86px; }
   body{
     min-height:100vh;
     overflow-x:hidden;
@@ -63,31 +63,30 @@
     opacity:0;
     transition: opacity 2.4s ease-in-out, transform 12s ease-out;
     transform:scale(1.04);
-    filter: saturate(.7) contrast(.95) brightness(.55);
+    filter:saturate(.7) contrast(.95) brightness(.55);
     will-change: opacity, transform;
   }
   .bg .slide.brand-slide{
     background-color:#071d31;
     background-repeat:no-repeat;
-    background-size:min(720px, 68vw);
-    background-position:center;
-    filter:saturate(.82) contrast(.98) brightness(.62);
+    background-size:clamp(100px, 20vw, 200px);
+    background-position:center 10%;
+    filter:saturate(.7) contrast(.95) brightness(.55);
   }
   .bg .slide.on{
     opacity:1;
     transform:scale(1.0);
   }
-  /* dimming scrim over slideshow for readability */
+  /* Match the Upcoming Events slideshow's photo treatment. */
   .bg::after{
     content:"";
     position:absolute; inset:0;
-    background:
-      linear-gradient(180deg, rgba(12,12,11,.35) 0%, rgba(12,12,11,.25) 45%, rgba(12,12,11,.55) 100%),
-      radial-gradient(120% 80% at 50% 50%, rgba(12,12,11,0) 0%, rgba(12,12,11,.25) 70%, rgba(12,12,11,.55) 100%);
+    background:linear-gradient(180deg,rgba(12,12,11,.35) 0%,rgba(12,12,11,.25) 45%,rgba(12,12,11,.55) 100%),
+      radial-gradient(120% 80% at 50% 50%,rgba(12,12,11,0) 0%,rgba(12,12,11,.25) 70%,rgba(12,12,11,.55) 100%);
     pointer-events:none;
     z-index:2;
   }
-  /* Scrims removed — photos display directly */
+  /* Subtle film grain over the slideshow. */
   .grain{
     position:fixed; inset:-50%; z-index:-1;
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95  0 0 0 0 0.95  0 0 0 0 0.92  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/></svg>");
@@ -110,8 +109,12 @@
 
   /* ---------- nav ---------- */
   nav.top{
-    padding-top:28px;
-    position:relative; z-index:5;
+    position:sticky; top:0; z-index:100;
+    padding:14px 0;
+    background:rgba(255,255,255,.96);
+    border-bottom:1px solid var(--line);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
   }
   .nav-inner{
     display:flex; align-items:center; justify-content:space-between;
@@ -140,13 +143,14 @@
   .nav-links a.current::after{ transform:scaleX(1); opacity:.55; }
   /* keep the 3 nav links from crowding on small phones */
   @media (max-width:800px){
-    nav.top{ padding-top:20px; }
+    nav.top{ padding:14px 0; }
     .nav-inner{ align-items:flex-start; gap:18px; }
     .nav-links{ gap:10px 16px; flex-wrap:wrap; justify-content:flex-end; }
     .nav-links a{ font-size:12px; }
     .brand-name{ font-size:13px; }
   }
   @media (max-width:460px){
+    html{ scroll-padding-top:120px; }
     .nav-inner{ flex-direction:column; align-items:center; }
     .nav-links{ justify-content:center; }
   }
@@ -164,7 +168,7 @@
     margin: 0 auto;
   }
   h1.display{
-    font-family:"Newsreader", "Iowan Old Style", Georgia, serif;
+    font-family:"Times New Roman", Times, serif;
     font-weight:300;
     font-size: clamp(56px, 9vw, 116px);
     line-height: .98;
@@ -732,6 +736,7 @@
     -webkit-backdrop-filter: blur(8px);
   }
   .foot-inner{ display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .foot-links{ display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
   .foot-inner a:hover{ color:var(--ink); }
 
 
@@ -820,9 +825,89 @@
   }
 
   ::selection{ background:var(--aic-teal); color:var(--aic-obsidian); }
+
+  /* Light content sections below the darker, photo-led hero. */
+  html,body{ background:#fff; color:var(--ink); }
+  .bg{ z-index:0; background:#fff; pointer-events:none; }
+  .grain{ opacity:.025; mix-blend-mode:multiply; }
+  .brand-name,.nav-links a,.nav-links a.current{ color:var(--ink); }
+  .nav-links a:hover{ color:var(--ink); }
+  .brand-name,.nav-links a{ text-shadow:none; }
+  h1.display{ color:#fff; text-shadow:0 2px 2px rgba(0,0,0,.95),0 0 18px rgba(0,0,0,.7); }
+  h1.display .italic{ color:#fff; }
+  .hero-section{ z-index:1; }
+  .lede{ color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.98),0 0 12px rgba(0,0,0,.85); }
+  .cta-join{
+    border-color:rgba(255,255,255,.45);
+    background:linear-gradient(135deg,rgba(255,255,255,.2),rgba(255,255,255,.06) 46%,rgba(255,255,255,.14));
+    color:#fff;
+    box-shadow:0 12px 34px -12px rgba(0,0,0,.5),inset 1px 1px 0 rgba(255,255,255,.36),inset -1px -1px 0 rgba(0,0,0,.16);
+  }
+  .cta-join::before{ background:linear-gradient(118deg,rgba(255,255,255,.2),transparent 38%,rgba(255,255,255,.06) 60%,rgba(255,255,255,.16)); }
+  .cta-join:hover,.cta-join:focus-visible{
+    border-color:rgba(255,255,255,.68);
+    box-shadow:0 17px 44px -14px rgba(0,0,0,.6),inset 1px 1px 0 rgba(255,255,255,.5),inset -1px -1px 0 rgba(0,0,0,.16);
+  }
+  /* Static clear-glass CTA: no shimmer, lift, or label swap. */
+  .cta-join,.cta-join:hover,.cta-join:focus-visible,.cta-join:active{
+    transform:none;
+    border-color:rgba(255,255,255,.72);
+    background:rgba(255,255,255,.07);
+    color:#fff;
+    box-shadow:0 4px 18px rgba(0,0,0,.16),inset 0 0 0 1px rgba(255,255,255,.16);
+    transition:none;
+    animation:none;
+    text-shadow:0 1px 2px rgba(0,0,0,.95),0 0 8px rgba(0,0,0,.7);
+  }
+  .cta-join::before,.cta-join::after{content:none;display:none;}
+  .cta-default{opacity:1;transform:none;transition:none;}
+  .cta-hover{display:none;}
+  .js .cta-join.reveal{opacity:1;transform:none;transition:none;}
+  .cta-join:focus-visible{outline:2px solid #fff;outline-offset:4px;}
+  section.what-we-do{
+    background:linear-gradient(180deg,rgba(255,255,255,.96),#fff 24%);
+  }
+  section.what-we-do::before{ background:radial-gradient(ellipse 70% 46% at 50% 20%,rgba(238,242,244,.55),transparent 74%); }
+  .lower-topography{ z-index:1; background:#fff; }
+  .aic-topography{
+    background:radial-gradient(66% 74% at 76% 24%,rgba(107,79,187,.045),transparent 67%),
+      radial-gradient(54% 68% at 14% 82%,rgba(32,178,170,.04),transparent 68%),#fff;
+  }
+  .aic-topography::after{ background:radial-gradient(ellipse 76% 58% at 50% 30%,transparent 0%,rgba(255,255,255,.16) 100%); }
+  .program-card{
+    border-color:var(--line);
+    background:#fff;
+    box-shadow:0 14px 36px -28px rgba(32,35,41,.32);
+  }
+  .program-card img{ height:58%; bottom:auto; filter:saturate(.82) contrast(.98) brightness(.96); }
+  .program-card::before{ background:linear-gradient(180deg,transparent 35%,rgba(255,255,255,.96) 57%,#fff 65%); }
+  .program-card::after{ border-color:rgba(32,35,41,.06); }
+  .program-number{ color:var(--ink-faint); }
+  .program-content p{ color:var(--ink-dim); }
+  .program-card:hover,.program-card:focus-visible{ border-color:rgba(32,35,41,.22); box-shadow:0 18px 42px -28px rgba(32,35,41,.34); }
+  .program-card:hover img,.program-card:focus-visible img{ filter:saturate(.95) brightness(1); }
+  .program-card{ border-width:2px; }
+  .program-card--ai4all,.program-card--ai4all:hover,.program-card--ai4all:focus-visible{ border-color:var(--aic-teal); }
+  .program-card--set,.program-card--set:hover,.program-card--set:focus-visible{ border-color:var(--aic-purple); }
+  .program-card--research,.program-card--research:hover,.program-card--research:focus-visible{ border-color:#202329; }
+  section.events{ background:#fff; }
+  section.events::before{ background:linear-gradient(180deg,rgba(255,255,255,0),#fff 82%); }
+  .events-head .label{ text-shadow:none; }
+  .events-head .label em{ color:var(--ink-dim); }
+  .event{ background:#fff; }
+  .event:hover{ background:#f5f6f7; box-shadow:none; }
+  .event::before{ display:none; }
+  .event .title .tag{ color:#6545a8; }
+  .event:hover .go{ color:#6545a8; box-shadow:none; }
+  section.join{ background:linear-gradient(180deg,#fff,#f7f8f9); }
+  .form-frame{ box-shadow:0 18px 48px -30px rgba(32,35,41,.28); }
+  .form-frame .inner{ background:#fff; }
+  footer{ background:#fff !important; color:var(--ink-faint); }
 </style>
+<link rel="stylesheet" href="floating-nav.css" />
+<script src="floating-nav.js" defer></script>
 </head>
-<body>
+<body class="photo-hero">
 
 <!-- Background slideshow -->
 <div class="bg" id="bg"></div>
@@ -844,10 +929,10 @@
 <div class="hero-section">
   <div class="wrap">
     <div class="hero">
-      <h1 class="display reveal">Welcome to <span class="italic">AIC</span></h1>
+      <h1 class="display reveal">AI belongs to everyone.</h1>
       <p class="lede reveal d1">
-        U-M Dearborn&rsquo;s largest and fastest-growing AI club — home to prestigious
-        programs where students learn, build, and lead with artificial intelligence.
+        At U-M Dearborn, AIC connects students across majors through AI4ALL workshops,
+        hands-on software engineering, and faculty-supported research seminars.
       </p>
       <a class="cta-join reveal d2" href="#join">
         <span class="cta-default">Join AIC</span>
@@ -875,7 +960,7 @@
     </div>
 
     <div class="program-grid">
-      <a class="program-card program-card--ai4all reveal d1" href="#join">
+      <a class="program-card program-card--ai4all reveal d1" href="track-ai4all.html">
         <img src="images/aic-fall-gbm.jpg" alt="A packed AIC General Body Meeting audience" loading="lazy" />
         <span class="program-content">
           <span class="program-number">01 · AI4ALL</span>
@@ -883,7 +968,7 @@
           <p>Hands-on AI workshops that make new tools, ideas, and applications feel approachable.</p>
         </span>
       </a>
-      <a class="program-card program-card--set reveal d2" href="#join">
+      <a class="program-card program-card--set reveal d2" href="track-set.html">
         <img src="images/w01.jpg" alt="AIC members gathered in a tiered workshop classroom" loading="lazy" />
         <span class="program-content">
           <span class="program-number">02 · SOFTWARE ENGINEERING</span>
@@ -891,7 +976,7 @@
           <p>Build with modern developer tools, ship practical projects, and grow alongside other makers.</p>
         </span>
       </a>
-      <a class="program-card program-card--research reveal d3" href="#join">
+      <a class="program-card program-card--research reveal d3" href="track-research.html">
         <img src="images/w06.jpg" alt="AIC members attending a seminar session" loading="lazy" />
         <span class="program-content">
           <span class="program-number">03 · RESEARCH TRACK</span>
@@ -933,7 +1018,11 @@
 <footer>
   <div class="wrap foot-inner">
     <div>© 2026 · Artificial Intelligence Club · U-M Dearborn</div>
-    <div><a href="mailto:aic-eboard@umich.edu">Contact</a></div>
+    <div class="foot-links">
+      <a href="mailto:aic-eboard@umich.edu">Contact</a>
+      <a href="https://www.instagram.com/aic.umd/" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href="https://www.linkedin.com/company/artificial-intelligence-club-of-university-of-michigan-dearborn/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
   </div>
 </footer>
 </div>
@@ -947,10 +1036,10 @@
     const HOLD_MS = 6500;
     const bg = document.getElementById('bg');
 
-    // Show recovered legacy assets first so their full-screen treatment is easy to review.
+    // Open on a crowd photo; the original AI4ALL mark stays in the rotation.
     const recoveredSlides = [
-      { src:'images/ai4all-mark.jpg', className:'brand-slide' },
-      { src:'images/aic-fall-gbm.jpg', className:'event-slide' }
+      { src:'images/aic-fall-gbm.jpg', className:'event-slide' },
+      { src:'images/ai4all-mark.jpg', className:'brand-slide' }
     ];
     const workshopSlides = Array.from(
       {length: 21},

@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="description" content="The source-verified archive of AIC's AI4ALL workshops and recordings at the University of Michigan-Dearborn." />
-<meta name="theme-color" content="#14151a" />
+<meta name="theme-color" content="#FFFFFF" />
 <title>Workshop Archive — AIC</title>
 <script>document.documentElement.classList.add('js');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,21 +14,21 @@
   :root{
     --aic-teal:   #20B2AA;
     --aic-purple: #6B4FBB;
-    --aic-off:    #EDEDE9;
-    --aic-obsidian:#0C0C0B;
+    --aic-off:    #202329;
+    --aic-obsidian:#FFFFFF;
     --aic-ash:    #3A3A38;
 
-    --bg:#14151a;
-    --bg-2:#1a1b21;
+    --bg:#FFFFFF;
+    --bg-2:#F4F5F6;
     --ink: var(--aic-off);
-    --ink-dim:#b6b4ad;
-    --ink-faint:#85827a;
-    --line:rgba(237,237,233,.10);
-    --line-strong:rgba(237,237,233,.22);
+    --ink-dim:#505861;
+    --ink-faint:#727b85;
+    --line:rgba(32,35,41,.12);
+    --line-strong:rgba(32,35,41,.24);
 
-    --serif:"IBM Plex Serif", "Iowan Old Style", Georgia, serif;
-    --sans:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
-    --mono:"IBM Plex Mono", ui-monospace, "JetBrains Mono", Menlo, monospace;
+    --serif:"Times New Roman", Times, serif;
+    --sans:"Times New Roman", Times, serif;
+    --mono:"Times New Roman", Times, serif;
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
@@ -38,6 +38,7 @@
     font-family:var(--sans);
     -webkit-font-smoothing:antialiased;
   }
+  html{ scroll-padding-top:86px; }
   body{
     min-height:100vh;
     overflow-x:hidden;
@@ -108,8 +109,12 @@
 
   /* nav */
   nav.top{
-    padding-top:28px;
-    position:relative; z-index:5;
+    position:sticky; top:0; z-index:100;
+    padding:14px 0;
+    background:rgba(255,255,255,.96);
+    border-bottom:1px solid var(--line);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
   }
   .nav-inner{
     display:flex; align-items:center; justify-content:space-between;
@@ -134,13 +139,14 @@
   .nav-links a.current{ color:var(--ink); }
   .nav-links a.current::after{ transform:scaleX(1); opacity:.55; }
   @media (max-width:800px){
-    nav.top{ padding-top:20px; }
+    nav.top{ padding:14px 0; }
     .nav-inner{ align-items:flex-start; gap:18px; }
     .nav-links{ gap:10px 16px; flex-wrap:wrap; justify-content:flex-end; }
     .nav-links a{ font-size:12px; }
     .brand-name{ font-size:13px; }
   }
   @media (max-width:460px){
+    html{ scroll-padding-top:120px; }
     .nav-inner{ flex-direction:column; align-items:center; }
     .nav-links{ justify-content:center; }
   }
@@ -385,6 +391,7 @@
     font-family:var(--mono); font-size:11px; letter-spacing:.06em;
   }
   .foot-inner{ display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .foot-links{ display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
   .foot-inner a:hover{ color:var(--ink); }
 
   /* reveal */
@@ -410,7 +417,7 @@
 
   /* lightbox */
   .lightbox{
-    position:fixed; inset:0; z-index:100;
+    position:fixed; inset:0; z-index:200;
     background:rgba(8,8,9,.92);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -519,7 +526,32 @@
     .lightbox .meta .title{ font-size:19px; }
   }
 
+  /* Light gallery surfaces; keep the workshop photography and recordings intact. */
+  html,body{ background:#fff; }
+  .chip[aria-pressed="true"]{ background:#f2f3f4; color:var(--ink); border-color:var(--line-strong); }
+  .card .media{ background:#f2f3f4; }
+  .card .media.resource-media{
+    background:radial-gradient(circle at 82% 14%,rgba(107,79,187,.1),transparent 37%),
+      radial-gradient(circle at 12% 86%,rgba(32,178,170,.08),transparent 42%),#f4f5f6;
+  }
+  .resource-cover{background:repeating-linear-gradient(45deg,transparent 0 24px,rgba(32,35,41,.025) 24px 25px)}
+  .resource-cover::before{border-color:var(--line-strong);background:rgba(255,255,255,.8)}
+  .resource-cover--video::before{background:linear-gradient(30deg,transparent 43%,var(--ink) 44% 56%,transparent 57%),rgba(255,255,255,.8)}
+  .card .media .img.poster{background-color:#f2f3f4}
+  .card .media::before{background:linear-gradient(180deg,transparent,rgba(32,35,41,.16))}
+  .card .badge .num,.card .photos{background:rgba(255,255,255,.9);border-color:var(--line-strong);color:var(--ink-dim)}
+  .card .badge .tag{color:#146d68}
+  .lightbox{background:rgba(255,255,255,.96)}
+  .lightbox .mode-button,.lightbox .nav-btn,.lightbox .close{background:#fff;color:var(--ink-dim)}
+  .lightbox .mode-button:hover,.lightbox .mode-button[aria-selected="true"]{background:#f0ecf7;color:var(--ink)}
+  .lightbox .stage,.lightbox .resource{background:#f2f3f4}
+  .lightbox .resource iframe{background:#fff}
+  .lightbox .nav-btn:hover,.lightbox .close:hover{background:#f2f3f4}
+  .lightbox .dots span{background:rgba(32,35,41,.22)}
+
 </style>
+<link rel="stylesheet" href="floating-nav.css" />
+<script src="floating-nav.js" defer></script>
 </head>
 <body>
 
@@ -586,7 +618,11 @@
 <footer>
   <div class="wrap foot-inner">
     <div>© 2026 · Artificial Intelligence Club · U-M Dearborn</div>
-    <div><a href="AI4ALL.html">← Back to home</a></div>
+    <div class="foot-links">
+      <a href="AI4ALL.html">← Back to home</a>
+      <a href="https://www.instagram.com/aic.umd/" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href="https://www.linkedin.com/company/artificial-intelligence-club-of-university-of-michigan-dearborn/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
   </div>
 </footer>
 

@@ -431,14 +431,6 @@
     width:100%;
     padding:27px 26px 25px;
   }
-  .program-number{
-    display:block;
-    margin-bottom:42px;
-    font-family:var(--mono);
-    font-size:10px;
-    letter-spacing:.15em;
-    color:rgba(237,237,233,.7);
-  }
   .program-title{
     display:flex;
     align-items:center;
@@ -448,13 +440,6 @@
     font-size:clamp(26px,2.5vw,34px);
     line-height:1;
     letter-spacing:-.025em;
-  }
-  .program-arrow{
-    flex:0 0 auto;
-    font-family:var(--sans);
-    font-size:24px;
-    font-weight:300;
-    transition:transform .3s ease;
   }
   .program-content p{
     margin-top:11px;
@@ -474,8 +459,6 @@
     transform:scale(1.08);
     filter:grayscale(0) saturate(.92) brightness(.82);
   }
-  .program-card:hover .program-arrow,
-  .program-card:focus-visible .program-arrow{ transform:translate(4px,-4px); }
   @media (max-width:850px){
     .work-intro{ grid-template-columns:1fr; gap:18px; }
     .work-kicker{ margin-bottom:0; }
@@ -903,7 +886,6 @@
     box-shadow:0 4px 18px rgba(0,0,0,.16),inset 0 0 0 1px rgba(255,255,255,.16);
     transition:none;
     animation:none;
-    text-shadow:0 1px 2px rgba(0,0,0,.95),0 0 8px rgba(0,0,0,.7);
   }
   .cta-join::before,.cta-join::after{content:none;display:none;}
   .cta-default{opacity:1;transform:none;transition:none;}
@@ -928,7 +910,6 @@
   .program-card img{ height:58%; bottom:auto; filter:saturate(.82) contrast(.98) brightness(.96); }
   .program-card::before{ background:linear-gradient(180deg,transparent 35%,rgba(255,255,255,.96) 57%,#fff 65%); }
   .program-card::after{ border-color:rgba(32,35,41,.06); }
-  .program-number{ color:var(--ink-faint); }
   .program-content p{ color:var(--ink-dim); }
   .program-card:hover,.program-card:focus-visible{ border-color:rgba(32,35,41,.22); box-shadow:0 18px 42px -28px rgba(32,35,41,.34); }
   .program-card:hover img,.program-card:focus-visible img{ filter:saturate(.95) brightness(1); }
@@ -1008,24 +989,21 @@
       <a class="program-card program-card--ai4all reveal d1" href="track-ai4all.html">
         <img src="images/aic-fall-gbm.jpg" alt="A packed AIC General Body Meeting audience" loading="lazy" />
         <span class="program-content">
-          <span class="program-number">01 · AI4ALL</span>
-          <span class="program-title">AI4ALL <span class="program-arrow" aria-hidden="true">↗</span></span>
+          <span class="program-title">AI4ALL</span>
           <p>Hands-on AI workshops that make new tools, ideas, and applications feel approachable.</p>
         </span>
       </a>
       <a class="program-card program-card--set reveal d2" href="track-set.html">
         <img src="images/w01.jpg" alt="AIC members gathered in a tiered workshop classroom" loading="lazy" />
         <span class="program-content">
-          <span class="program-number">02 · SOFTWARE ENGINEERING</span>
-          <span class="program-title">SET <span class="program-arrow" aria-hidden="true">↗</span></span>
+          <span class="program-title">SET</span>
           <p>Build with modern developer tools, ship practical projects, and grow alongside other makers.</p>
         </span>
       </a>
       <a class="program-card program-card--research reveal d3" href="track-research.html">
         <img src="images/w06.jpg" alt="AIC members attending a seminar session" loading="lazy" />
         <span class="program-content">
-          <span class="program-number">03 · RESEARCH TRACK</span>
-          <span class="program-title">Research <span class="program-arrow" aria-hidden="true">↗</span></span>
+          <span class="program-title">Research</span>
           <p>Explore the questions shaping AI through reading groups, discussion, and guided investigation.</p>
         </span>
       </a>

@@ -467,6 +467,75 @@
     .program-card{ min-height:330px; }
   }
 
+  /* ---------- featured upcoming event ---------- */
+  .featured-event{
+    position:relative;
+    display:grid;
+    grid-template-columns:minmax(0,320px) minmax(0,1fr);
+    gap:40px;
+    align-items:center;
+    margin-top:42px;
+    padding:22px;
+    border:2px solid var(--aic-teal);
+    border-radius:18px;
+    background:#fff;
+    box-shadow:0 14px 36px -28px rgba(32,35,41,.32);
+  }
+  .featured-event img{
+    display:block;
+    width:100%;
+    height:auto;
+    border-radius:12px;
+  }
+  .featured-event-label{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--aic-teal);
+  }
+  .featured-event h3{
+    margin-top:12px;
+    font-family:var(--serif);
+    font-size:clamp(28px,3vw,40px);
+    font-weight:400;
+    line-height:1.08;
+    letter-spacing:-.025em;
+    color:var(--ink);
+  }
+  .featured-event-speaker{
+    margin-top:14px;
+    max-width:52ch;
+    color:var(--ink-dim);
+    font-size:17px;
+    line-height:1.5;
+  }
+  .featured-event-speaker strong{ color:var(--ink); font-weight:600; }
+  .featured-event-meta{
+    display:grid;
+    gap:14px;
+    margin-top:24px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+  }
+  .featured-event-meta dt{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  .featured-event-meta dd{
+    margin-top:3px;
+    color:var(--ink);
+    font-size:16px;
+    line-height:1.45;
+  }
+  @media (max-width:760px){
+    .featured-event{ grid-template-columns:1fr; gap:24px; padding:16px; }
+    .featured-event img{ max-width:420px; margin:0 auto; }
+  }
+
   /* ---------- upcoming events ---------- */
   section.events{
     padding: 120px 0 140px;
@@ -1008,6 +1077,22 @@
         </span>
       </a>
     </div>
+
+    <article class="featured-event reveal" aria-labelledby="featured-event-title">
+      <img src="images/events/ai4all-guest-speaker-brock-palen.jpg" alt="AI4ALL guest speaker flyer featuring Brock Palen, Director of Advanced Research Computing at the University of Michigan" loading="lazy" />
+      <div class="featured-event-body">
+        <div class="featured-event-label">Upcoming event · AI4ALL guest speaker</div>
+        <h3 id="featured-event-title">Advanced Research Computing and the Guts of a Supercomputer</h3>
+        <p class="featured-event-speaker">
+          A discussion with <strong>Brock Palen</strong>, Director of Advanced Research Computing
+          at the University of Michigan.
+        </p>
+        <dl class="featured-event-meta">
+          <div><dt>When</dt><dd>Tuesday, October 27 · 4:00–6:00 PM</dd></div>
+          <div><dt>Where</dt><dd>Michigan Room East, College of Business (COB), Fairlane</dd></div>
+        </dl>
+      </div>
+    </article>
   </div>
 </section>
 
